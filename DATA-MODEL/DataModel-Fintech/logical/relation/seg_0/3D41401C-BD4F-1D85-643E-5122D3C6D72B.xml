@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="conta_transacao" directorySegmentName="seg_0" id="3D41401C-BD4F-1D85-643E-5122D3C6D72B">
+<createdBy>vande</createdBy>
+<createdTime>2022-08-23 00:00:47 UTC</createdTime>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<engineerTo>
+<item key="B9C254C9-A3A1-9608-2681-1BEA97D3F269" value="true"/>
+</engineerTo>
+<sourcePk>860E9E71-2CF8-200B-5D5D-865328D84D64</sourcePk>
+<identifying>true</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>9CB8E8C8-B936-3DAB-7B63-01C1F40771AB</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>6FEF2357-5C5D-0C74-FF07-9D1D02B3AE88</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

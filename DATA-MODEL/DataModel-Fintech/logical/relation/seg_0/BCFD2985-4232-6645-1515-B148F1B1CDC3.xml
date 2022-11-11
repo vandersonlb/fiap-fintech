@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="investimento_conta" directorySegmentName="seg_0" id="BCFD2985-4232-6645-1515-B148F1B1CDC3">
+<createdBy>vande</createdBy>
+<createdTime>2022-10-14 01:34:04 UTC</createdTime>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<engineerTo>
+<item key="B9C254C9-A3A1-9608-2681-1BEA97D3F269" value="true"/>
+</engineerTo>
+<sourcePk>860E9E71-2CF8-200B-5D5D-865328D84D64</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>9CB8E8C8-B936-3DAB-7B63-01C1F40771AB</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>81E41B61-DEA7-7F12-81FE-008279D4FADB</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

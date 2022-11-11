@@ -1,0 +1,125 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="6CB8BA5E-B0E8-692E-D378-6D599B17607D" name="T_FT_USUARIO">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:02:18 UTC</createdTime>
+<generatorID>1D6F016C-DFE5-7A89-F5D4-B01E4C5DE8DF</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="nr_cpf" id="8878FC40-5F97-EBFF-8584-302B1AB30AD9">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:02:18 UTC</createdTime>
+<generatorID>5C319DC4-261F-496D-37F1-1D0641974611</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>11</dataTypePrecision>
+<ownDataTypeParameters>,11,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nm_completo" id="ADAB2550-A4F4-528B-8A1F-1D72788E6C9C">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:02:18 UTC</createdTime>
+<generatorID>CAC268AE-C2CB-14F5-89FD-9FB234BBE900</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="dt_nascimento" id="D593C42F-CF37-2772-9E7F-B5FFBE65A926">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:02:18 UTC</createdTime>
+<generatorID>5826E0CA-4ED0-1535-BD99-B9CC583BE651</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ds_email" id="5D168019-3A1E-6A60-78B4-10AFB2D159D0">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:02:18 UTC</createdTime>
+<generatorID>D3B1F331-B302-A731-1CF1-0ED9E91C9E38</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30 CHAR</dataTypeSize>
+<ownDataTypeParameters>30 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nr_celular" id="A175EEEE-BF4E-5250-D998-A44AD557EEF6">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:02:18 UTC</createdTime>
+<generatorID>BA37AB23-7D90-154C-D657-BF776B537F4D</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>11 CHAR</dataTypeSize>
+<ownDataTypeParameters>11 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ds_senha" id="2A5204F1-B474-4D43-76F3-5EE366F75D52">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:02:18 UTC</createdTime>
+<generatorID>3BED46E5-5835-C3E6-717F-4E05B760671B</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>15 CHAR</dataTypeSize>
+<ownDataTypeParameters>15 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="7A0BB77A-FFC9-4D00-E3A6-D5BA2E3F00AD" name="PK_FT_USUARIO">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:02:18 UTC</createdTime>
+<generatorID>BA0B141D-3F10-52B3-FBAD-FF4797840D8E</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8878FC40-5F97-EBFF-8584-302B1AB30AD9"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C0F2476B-9E6B-2B72-2F0D-9F004D4B4D69" name="UN_FT_EMAIL">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:10:53 UTC</createdTime>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5D168019-3A1E-6A60-78B4-10AFB2D159D0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C0AF9631-0AB6-384F-5AB1-D64BF93FD1DF" name="UN_FT_CELULAR">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:10:53 UTC</createdTime>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A175EEEE-BF4E-5250-D998-A44AD557EEF6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+<tableCheckConstraints itemClass="oracle.dbtools.crest.model.design.constraint.TableLevelConstraint">
+<tableCheckConstraint name="CK_FT_NASC_USUARIO" directorySegmentName="seg_0" id="33CB6A28-6EB1-1854-19EB-8D32B8C288EC">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:05:20 UTC</createdTime>
+<ownerDesignName>Fintech_DataModel</ownerDesignName>
+<rule><![CDATA[EXTRACT(YEAR FROM dt_nascimento) < 2004]]></rule>
+</tableCheckConstraint>
+</tableCheckConstraints>
+</Table>

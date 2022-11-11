@@ -1,0 +1,162 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="6FEF2357-5C5D-0C74-FF07-9D1D02B3AE88" name="T_FT_TRANSACAO">
+<createdBy>vande</createdBy>
+<createdTime>2022-05-22 16:02:56 UTC</createdTime>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<engineerTo>
+<item key="B9C254C9-A3A1-9608-2681-1BEA97D3F269" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="nr_conta" id="EE21DB45-D862-2243-9E51-C982EA260150">
+<createdBy>vande</createdBy>
+<createdTime>2022-10-14 01:08:14 UTC</createdTime>
+<generatorID>3D41401C-BD4F-1D85-643E-5122D3C6D72B</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<engineerTo>
+<item key="B9C254C9-A3A1-9608-2681-1BEA97D3F269" value="true"/>
+</engineerTo>
+<referedAttribute>292EBB96-3A87-45DF-1040-14E4DA92871C</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>6</dataTypePrecision>
+<ownDataTypeParameters>,6,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="sq_transacao" id="3E1EECEE-282C-D7EB-099B-CF608DA4F284">
+<createdBy>vande</createdBy>
+<createdTime>2022-05-22 16:03:04 UTC</createdTime>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<engineerTo>
+<item key="B9C254C9-A3A1-9608-2681-1BEA97D3F269" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>5</dataTypePrecision>
+<ownDataTypeParameters>,5,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nm_transacao" id="708030C3-7BD0-E7DD-3A40-E8EF2B9EBC37">
+<createdBy>vande</createdBy>
+<createdTime>2022-05-22 16:04:09 UTC</createdTime>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<engineerTo>
+<item key="B9C254C9-A3A1-9608-2681-1BEA97D3F269" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="cd_investimento" id="3D9661BD-674F-AD23-3FB0-E9163BCBBB7D">
+<createdBy>vande</createdBy>
+<createdTime>2022-10-14 01:37:53 UTC</createdTime>
+<generatorID>8894C564-FDB6-4D63-8C8B-48B96D1C83FB</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<engineerTo>
+<item key="B9C254C9-A3A1-9608-2681-1BEA97D3F269" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>9BEA834D-E7E9-2788-8E61-02E377066310</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>2</dataTypePrecision>
+<ownDataTypeParameters>,2,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="cd_tipo" id="35D595B6-BE21-5D6C-7AE3-13504E650BD2">
+<createdBy>vande</createdBy>
+<createdTime>2022-05-22 18:51:40 UTC</createdTime>
+<generatorID>2BF37371-D6E9-6027-4D81-55B070DF0F34</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<engineerTo>
+<item key="B9C254C9-A3A1-9608-2681-1BEA97D3F269" value="true"/>
+</engineerTo>
+<referedAttribute>680FD234-0920-B75C-3C2B-8187158F6FE0</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>1</dataTypePrecision>
+<ownDataTypeParameters>,1,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="vl_transacao" id="C3F40F1B-1082-E6DB-5559-42696EA3DD16">
+<createdBy>vande</createdBy>
+<createdTime>2022-05-22 16:18:46 UTC</createdTime>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<engineerTo>
+<item key="B9C254C9-A3A1-9608-2681-1BEA97D3F269" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<ownDataTypeParameters>,10,2</ownDataTypeParameters>
+</Attribute>
+<Attribute name="dt_transacao" id="9E6CCBD8-A33F-F1F8-6CCB-0BCC09957D7F">
+<createdBy>vande</createdBy>
+<createdTime>2022-05-22 16:19:15 UTC</createdTime>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<engineerTo>
+<item key="B9C254C9-A3A1-9608-2681-1BEA97D3F269" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="cd_categoria" id="71F7F31C-AB1A-49B9-7AE7-3296D8B9AB62">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-10 23:13:57 UTC</createdTime>
+<generatorID>CF091EF9-79FE-8729-DBB9-C557B8977342</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<engineerTo>
+<item key="B9C254C9-A3A1-9608-2681-1BEA97D3F269" value="true"/>
+</engineerTo>
+<referedAttribute>328779B1-7E9C-4A7E-BB76-2A38C03FE140</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>2</dataTypePrecision>
+<ownDataTypeParameters>,2,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ob_transacao" id="C1201D48-545D-CB6A-36A0-CF96177F522E">
+<createdBy>vande</createdBy>
+<createdTime>2022-05-22 16:21:25 UTC</createdTime>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<engineerTo>
+<item key="B9C254C9-A3A1-9608-2681-1BEA97D3F269" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>60 CHAR</dataTypeSize>
+<ownDataTypeParameters>60 CHAR,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="658E9FAD-042F-00A4-5876-71B8D737F11D" name="PK_FT_TRANSACAO">
+<createdBy>vande</createdBy>
+<createdTime>2022-05-22 16:03:25 UTC</createdTime>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<engineerTo>
+<item key="B9C254C9-A3A1-9608-2681-1BEA97D3F269" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<newElementsIDs>3D41401C-BD4F-1D85-643E-5122D3C6D72B,3E1EECEE-282C-D7EB-099B-CF608DA4F284</newElementsIDs>
+<usedAttributes>
+<attributeRef>EE21DB45-D862-2243-9E51-C982EA260150</attributeRef>
+<attributeRef>3E1EECEE-282C-D7EB-099B-CF608DA4F284</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

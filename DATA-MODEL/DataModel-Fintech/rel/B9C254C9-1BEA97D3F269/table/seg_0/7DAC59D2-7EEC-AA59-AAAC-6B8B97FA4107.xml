@@ -1,0 +1,96 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="7DAC59D2-7EEC-AA59-AAAC-6B8B97FA4107" name="T_FT_CONTA">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:02:18 UTC</createdTime>
+<generatorID>9CB8E8C8-B936-3DAB-7B63-01C1F40771AB</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="nr_conta" id="1494F040-93A5-7A84-DB8E-F56493C446FD">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:02:18 UTC</createdTime>
+<generatorID>292EBB96-3A87-45DF-1040-14E4DA92871C</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>6</dataTypePrecision>
+<ownDataTypeParameters>,6,</ownDataTypeParameters>
+<autoIncrementColumn>true</autoIncrementColumn>
+<autoIncrementStartWith>123456</autoIncrementStartWith>
+<autoIncrementMinValue>123456</autoIncrementMinValue>
+<autoIncrementMaxValue>999999</autoIncrementMaxValue>
+<autoIncrementCycle>false</autoIncrementCycle>
+<autoIncrementSequenceName>SQ_FT_NR_CONTA</autoIncrementSequenceName>
+</Column>
+<Column name="nr_cpf" id="9198D67B-5747-7ACE-EB50-B14326DC4CAA">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:02:18 UTC</createdTime>
+<generatorID>96BE08FF-18EA-66A7-39E4-9FD34861E037</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>11</dataTypePrecision>
+<ownDataTypeParameters>,11,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="977D6CE4-B83E-888D-7EAB-C828B37B8BC9" referredColumn="8878FC40-5F97-EBFF-8584-302B1AB30AD9"/>
+</associations>
+</Column>
+<Column name="nm_conta" id="5B862100-0C24-3ED2-B3C5-07966B7DD052">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:02:18 UTC</createdTime>
+<generatorID>E15B6887-1DE0-AD02-E295-EBB22F880717</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="vl_saldo" id="866B1145-502B-A4A0-6CD4-7B1D6C65C139">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:02:18 UTC</createdTime>
+<generatorID>4211C36C-89AC-BA01-8E94-A8B810490D3E</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,10,2</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="B565DA9F-019C-397A-E2BE-D7B3759ABE29" name="PK_FT_CONTA">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:02:18 UTC</createdTime>
+<generatorID>860E9E71-2CF8-200B-5D5D-865328D84D64</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1494F040-93A5-7A84-DB8E-F56493C446FD"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2011018B-C79A-5177-9680-46968804E983" name="FK_FT_CONTA_USUARIO">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:02:18 UTC</createdTime>
+<generatorID>43D3335F-CDDC-9BEF-F47B-BAE1E14CDD15</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9198D67B-5747-7ACE-EB50-B14326DC4CAA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
