@@ -15,9 +15,9 @@
 - [ ] Extrato das transações
 
 #### Banco de dados
-- [ ] Criar bancos de produção e homologação
-- [ ] Gerar as tabelas
-- [ ] Popular dados de mock
+- [x] Criar bancos de produção e homologação
+- [x] Gerar as tabelas
+- [x] Popular dados de mock
 
 #### Java x BD
 - [ ] Criar os JavaBeans
