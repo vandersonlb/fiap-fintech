@@ -1,5 +1,5 @@
 -- Gerado por Oracle SQL Developer Data Modeler 21.4.1.349.1605
---   em:        2022-11-10 22:52:16 BRT
+--   em:        2022-11-11 15:25:37 BRT
 --   site:      Oracle Database 11g
 --   tipo:      Oracle Database 11g
 
@@ -182,7 +182,7 @@ BEGIN
 end;
 /
 
-CREATE SEQUENCE "SEQUENCE SQ_FT_CD_TIPO" 
+CREATE SEQUENCE SQ_FT_CD_TIPO 
 START WITH 1 
     MINVALUE 1 
     MAXVALUE 9 
@@ -194,7 +194,7 @@ BEFORE INSERT ON T_FT_TIPO
 FOR EACH ROW 
 WHEN (NEW.cd_tipo IS NULL) 
 BEGIN
-:new.cd_tipo := "SEQUENCE SQ_FT_CD_TIPO".nextval;
+:new.cd_tipo := sq_ft_cd_tipo.nextval;
 
 end;
 /

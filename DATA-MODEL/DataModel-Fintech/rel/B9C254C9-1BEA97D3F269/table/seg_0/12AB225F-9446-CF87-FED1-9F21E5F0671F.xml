@@ -22,7 +22,7 @@
 <autoIncrementMinValue>1</autoIncrementMinValue>
 <autoIncrementMaxValue>9</autoIncrementMaxValue>
 <autoIncrementCycle>false</autoIncrementCycle>
-<autoIncrementSequenceName>SEQUENCE SQ_FT_CD_TIPO</autoIncrementSequenceName>
+<autoIncrementSequenceName>SQ_FT_CD_TIPO</autoIncrementSequenceName>
 </Column>
 <Column name="nm_tipo" id="2CCF8646-041C-E8B0-D699-63109233C64A">
 <createdBy>vande</createdBy>
