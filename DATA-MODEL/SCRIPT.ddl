@@ -1,5 +1,5 @@
 -- Gerado por Oracle SQL Developer Data Modeler 21.4.1.349.1605
---   em:        2022-11-11 15:25:37 BRT
+--   em:        2022-11-11 20:18:43 BRT
 --   site:      Oracle Database 11g
 --   tipo:      Oracle Database 11g
 
@@ -41,7 +41,8 @@ CREATE TABLE t_ft_investimento (
     nr_conta        NUMBER(6) NOT NULL,
     cd_investimento NUMBER(2) NOT NULL,
     nm_investimento VARCHAR2(20 CHAR) NOT NULL,
-    vl_saldo        NUMBER(10, 2) DEFAULT 0 NOT NULL
+    vl_saldo        NUMBER(10, 2) DEFAULT 0 NOT NULL,
+    vl_meta         NUMBER(10, 2) DEFAULT 0 NOT NULL
 );
 
 ALTER TABLE t_ft_investimento ADD CONSTRAINT pk_ft_investimento PRIMARY KEY ( cd_investimento );

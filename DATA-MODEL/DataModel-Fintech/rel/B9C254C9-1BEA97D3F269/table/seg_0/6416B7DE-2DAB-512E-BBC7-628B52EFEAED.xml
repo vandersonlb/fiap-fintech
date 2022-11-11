@@ -17,7 +17,7 @@
 <use>1</use>
 <logicalDatatype>LOGDT019</logicalDatatype>
 <dataTypePrecision>6</dataTypePrecision>
-<ownDataTypeParameters>,6,</ownDataTypeParameters>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
@@ -57,6 +57,19 @@
 <createdBy>vande</createdBy>
 <createdTime>2022-11-11 01:02:18 UTC</createdTime>
 <generatorID>7F908CFC-8C58-56F1-2EC6-E06EA8C9413B</generatorID>
+<ownerDesignName>DataModel-Fintech</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,10,2</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="vl_meta" id="1D2FB561-7EB8-9310-A781-21C1FD79206D">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 23:04:15 UTC</createdTime>
 <ownerDesignName>DataModel-Fintech</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
