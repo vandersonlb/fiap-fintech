@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="37722188-B873-1CBC-AC84-7563BFA8CAFE" containerWithKeyObject="327A6123-D22F-966B-8638-097ECC030B98" localFKIndex="AAE310F2-4990-EBBE-E4BB-8DF4C8BC335A" name="FK_FT_TRANSACAO_CONTA">
+<createdBy>vande</createdBy>
+<createdTime>2022-11-11 01:02:18 UTC</createdTime>
+<generatorID>3D41401C-BD4F-1D85-643E-5122D3C6D72B</generatorID>
+<ownerDesignName>Fintech_DataModel</ownerDesignName>
+<referredTableLongName>T_FT_CONTA</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>7DAC59D2-7EEC-AA59-AAAC-6B8B97FA4107</referredTableID>
+<keyObject>B565DA9F-019C-397A-E2BE-D7B3759ABE29</keyObject>
+<referredKeyID>B565DA9F-019C-397A-E2BE-D7B3759ABE29</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>nr_conta</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<LogicalDesign class="oracle.dbtools.crest.model.design.logical.LogicalDesign" name="Logical" id="D2DE4789-123C-1CD6-3724-8B991D7CC77B" mainViewID="43C3F7A1-4589-B7C0-9BB2-D47D7D4B8D55">
+<createdBy>vande</createdBy>
+<createdTime>2022-05-22 15:50:48 UTC</createdTime>
+<ownerDesignName>ATV_CAP_7</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+</LogicalDesign>
