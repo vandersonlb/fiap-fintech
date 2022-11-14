@@ -20,7 +20,7 @@
 - [x] Popular dados de mock
 
 #### Java x BD
-- [ ] Criar os JavaBeans
+- [x] Criar os JavaBeans
 - [ ] Criar todos DAOs
 - [ ] Testes unitários
 
