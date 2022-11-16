@@ -22,6 +22,12 @@ public class Usuario implements Serializable {
     super();
   }
 
+  public Usuario(String email, String senha) {
+    super();
+    this.email = email;
+    this.senha = senha;
+  }
+
   public Usuario(long numCPF, String nome, Calendar dataNasc, String email, String celular, String senha) {
     super();
     this.numCPF = numCPF;
@@ -36,7 +42,7 @@ public class Usuario implements Serializable {
     return numCPF;
   }
 
-  public void setNumCPF(int numCPF) {
+  public void setNumCPF(long numCPF) {
     this.numCPF = numCPF;
   }
 
