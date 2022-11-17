@@ -114,7 +114,6 @@ public class OracleContaDAO implements ContaDAO {
 
       while (rs.next()) {
 
-        System.out.println(rs.getString("NM_CONTA"));
         int numConta = rs.getInt("NR_CONTA");
         long numCPF = rs.getLong("NR_CPF");
         String nomeConta = rs.getString("NM_CONTA");
@@ -124,6 +123,7 @@ public class OracleContaDAO implements ContaDAO {
 
         System.out.println("Contas obtida com sucesso!");
       }
+      
       return contas;
 
     } catch (SQLException e) {

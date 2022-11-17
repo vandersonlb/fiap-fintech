@@ -8,7 +8,7 @@ import br.com.fintech.dao.ContaDAO;
 import br.com.fintech.dao.UsuarioDAO;
 import br.com.fintech.factory.DAOFactory;
 
-public class TesteContaDAO {
+public class TesteDAOConta {
 
   public static void main(String[] args) {
     UsuarioDAO usuarioDAO = DAOFactory.getUsuarioDAO();

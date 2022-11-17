@@ -36,7 +36,7 @@ public class Tipo implements Serializable {
 
   @Override
   public String toString() {
-    return String.format("Tipo: %s, Código: %d", codTipo, nomeTipo);
+    return String.format("Tipo: %s, Código: %d", nomeTipo, codTipo);
   }
 
 }

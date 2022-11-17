@@ -6,7 +6,7 @@ import br.com.fintech.bean.Usuario;
 import br.com.fintech.dao.UsuarioDAO;
 import br.com.fintech.factory.DAOFactory;
 
-public class TesteUsuarioDAO {
+public class TesteDAOUsuario {
 
   public static void main(String[] args) {
     UsuarioDAO usuarioDAO = DAOFactory.getUsuarioDAO();
