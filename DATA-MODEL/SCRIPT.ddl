@@ -77,11 +77,9 @@ CREATE TABLE t_ft_usuario (
     dt_nascimento DATE NOT NULL,
     ds_email      VARCHAR2(30 CHAR) NOT NULL,
     nr_celular    VARCHAR2(11 CHAR) NOT NULL,
-    ds_senha      VARCHAR2(15 CHAR) NOT NULL
+    ds_senha      VARCHAR2(50 CHAR) NOT NULL
 );
 
-ALTER TABLE t_ft_usuario
-    ADD CONSTRAINT ck_ft_nasc_usuario CHECK ( EXTRACT(YEAR FROM dt_nascimento) < 2004 );
 
 ALTER TABLE t_ft_usuario ADD CONSTRAINT pk_ft_usuario PRIMARY KEY ( nr_cpf );
 

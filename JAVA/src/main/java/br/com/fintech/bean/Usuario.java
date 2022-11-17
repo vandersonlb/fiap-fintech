@@ -12,7 +12,7 @@ public class Usuario implements Serializable {
   private static final long serialVersionUID = 1L;
   private long numCPF;
   private String nome;
-  private Calendar dataNasc;
+  private Calendar dataNasc = null;
   private String email;
   private String celular;
   private String senha;
@@ -25,7 +25,7 @@ public class Usuario implements Serializable {
   public Usuario(String email, String senha) {
     super();
     this.email = email;
-    this.senha = senha;
+    setSenha(senha);
   }
 
   public Usuario(long numCPF, String nome, Calendar dataNasc, String email, String celular, String senha) {
@@ -101,8 +101,12 @@ public class Usuario implements Serializable {
   @Override
   public String toString() {
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    return String.format("%s, %d, %s, %s, %s, %s, %s", nome, numCPF, sdf.format(dataNasc.getTime()), email, celular,
-        senha, contas);
+    String data = null;
+    if(this.dataNasc != null) {
+      data = sdf.format(dataNasc.getTime());
+    }
+    
+    return String.format("%s, %d, %s, %s, %s, %s, %s", nome, numCPF, data, email, celular, senha, contas);
   }
 
 }
