@@ -65,10 +65,10 @@ public class OracleTipoDAO implements TipoDAO {
         int cod = rs.getInt("CD_TIPO");
         String nome = rs.getString("NM_TIPO");
 
-        System.out.println("Tipos obtidos com sucesso!");
         tipos.add(new Tipo(cod, nome));
       }
 
+      System.out.println("Tipos obtidos com sucesso!");
       return tipos;
 
     } catch (SQLException e) {

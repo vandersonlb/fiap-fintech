@@ -14,6 +14,6 @@ public interface InvestimentoDAO {
 
   Investimento getInvestimento(int codigo);
 
-  List<Investimento> getAllInvestimento();
+  List<Investimento> getAllInvestimentoByConta(int numConta);
 
 }

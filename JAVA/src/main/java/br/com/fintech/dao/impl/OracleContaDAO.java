@@ -121,9 +121,9 @@ public class OracleContaDAO implements ContaDAO {
 
         contas.add(new Conta(numConta, numCPF, nomeConta, saldo));
 
-        System.out.println("Contas obtida com sucesso!");
       }
       
+      System.out.println("Contas obtida com sucesso!");
       return contas;
 
     } catch (SQLException e) {
