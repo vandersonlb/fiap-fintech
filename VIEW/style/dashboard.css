@@ -1,0 +1,72 @@
+main {
+  background: url(assets/bckgrnd-dashboard.svg) no-repeat center bottom;
+}
+
+.icone {
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  min-height: 60px;
+  text-align: center;
+  line-height: 55px;
+}
+
+.card span {
+  line-height: normal;
+}
+
+@media (min-width: 1400px) {
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 1400px;
+  }
+}
+
+.background {
+  z-index: -1;
+}
+
+.background__wave {
+  height: calc(100vh - 74px);
+  background: rgb(182, 176, 255);
+  background: linear-gradient( 90deg, rgba(182, 176, 255, 1) 0%, rgba(230, 230, 255, 1) 100% );
+}
+
+.background__wave--mask {
+  -webkit-mask-image: url("../assets/wave.svg");
+  mask-image: url("../assets/wave.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: bottom;
+  mask-position: bottom;
+}
+
+.background__img {
+  position: absolute;
+  left: 60px;
+  bottom: 0;
+  width: 600px;
+  height: 400px;
+  z-index: 1;
+  background: url("../assets/bckgrnd_img_3.svg") no-repeat center center;
+  background-size: contain;
+}
+
+.hide-actions .btn.btn-link {
+  visibility: hidden;
+  opacity: 0;
+  transition: all .2s ease-in-out;
+}
+
+.hide-actions:hover .btn.btn-link {
+  visibility: visible;
+  opacity: 1;
+  transition: all .2s ease-in-out;
+}
+
+.btn.btn-outline-primary:hover > a{
+  color: #fff !important;
+}
+
+.d-flex.flex-column.ps-2 > .fs-5.text-truncate {
+  font-size: 1.2rem !important;
+}
