@@ -7,12 +7,14 @@
 - [x] Gerar script DDL
 
 #### Front-end
-- [ ] Cadastro de usuário
+- [x] Cadastro de usuário
+- [ ] Editar perfil
 - [ ] Cadastro de conta
-- [ ] Dashboard (rever)
+- [x] Dashboard
 - [ ] Cadastro de investimento
-- [ ] Lançamento de transação
-- [ ] Extrato das transações
+- [x] Lançamento de transação
+- [ ] Editar transação
+- [x] Extrato das transações
 
 #### Banco de dados
 - [x] Criar bancos de produção e homologação
@@ -26,5 +28,5 @@
 
 #### Java x Web
 - [ ] Servelts
-- [ ] Testar as servlets
-- [ ] Criar as páginas integradas
+- [ ] Testar as Servlets
+- [ ] Integrar a interface com as Servlets
