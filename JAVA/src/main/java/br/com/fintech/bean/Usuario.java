@@ -102,10 +102,10 @@ public class Usuario implements Serializable {
   public String toString() {
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     String data = null;
-    if(this.dataNasc != null) {
+    if (this.dataNasc != null) {
       data = sdf.format(dataNasc.getTime());
     }
-    
+
     return String.format("%s, %d, %s, %s, %s, %s, %s", nome, numCPF, data, email, celular, senha, contas);
   }
 

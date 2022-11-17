@@ -13,6 +13,7 @@ import br.com.fintech.dao.UsuarioDAO;
 import br.com.fintech.jdbc.ConnectionManager;
 
 public class OracleUsuarioDAO implements UsuarioDAO {
+
   private Connection conn;
 
   @Override
@@ -70,7 +71,7 @@ public class OracleUsuarioDAO implements UsuarioDAO {
 
     } catch (SQLException e) {
       e.printStackTrace();
-      System.out.println("Usuário não encontrado.");
+      System.out.println("Erro na recuperação do usuário.");
     } finally {
       DbUtils.closeQuietly(rs);
       DbUtils.closeQuietly(stmt);
@@ -125,6 +126,7 @@ public class OracleUsuarioDAO implements UsuarioDAO {
 
     } catch (SQLException e) {
       e.printStackTrace();
+      System.out.println("Erro na autenticação do usuário");
     } finally {
       DbUtils.closeQuietly(rs);
       DbUtils.closeQuietly(stmt);

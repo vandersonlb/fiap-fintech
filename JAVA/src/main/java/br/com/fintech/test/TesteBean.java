@@ -16,7 +16,7 @@ public class TesteBean {
 
   public static void main(String[] args) {
     Calendar calendario = Calendar.getInstance();
-    
+
     Tipo tipo1 = new Tipo(1, "Entrada");
     Tipo tipo2 = new Tipo(1, "Saída");
     Tipo tipo3 = new Tipo(1, "Aporte");
@@ -38,7 +38,8 @@ public class TesteBean {
     calendario.set(2022, Calendar.OCTOBER, 1);
     Calendar dataNasc = calendario;
 
-    Usuario pedro = new Usuario(63636363512L, "Pedro Alcântara Machado", dataNasc, "p.machado@hotmail.com", "119657533321", "123456");
+    Usuario pedro = new Usuario(63636363512L, "Pedro Alcântara Machado", dataNasc, "p.machado@hotmail.com",
+        "119657533321", "123456");
 
     List<Conta> contas = new ArrayList<Conta>();
     contas.add(new Conta(123456, pedro.getNumCPF(), "Conta Pessoal", 15.55f));
@@ -51,11 +52,12 @@ public class TesteBean {
     contas.get(0).setInvestimentos(investimentos);
 
     System.out.println(pedro);
-    
+
     calendario.set(2022, Calendar.OCTOBER, 1);
     Calendar dataTrans = calendario;
-    
-    Transacao trans1 = new Transacao(contas.get(0), 1212, "Salário", null, tipo1, 1500.55F, dataTrans, grupoRenda.getCategorias().get(2), "nada");
+
+    Transacao trans1 = new Transacao(contas.get(0), 1212, "Salário", null, tipo1, 1500.55F, dataTrans,
+        grupoRenda.getCategorias().get(2), "nada");
     System.out.println(trans1);
 
   }
