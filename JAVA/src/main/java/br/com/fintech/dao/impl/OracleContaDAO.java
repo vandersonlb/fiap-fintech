@@ -79,20 +79,28 @@ public class OracleContaDAO implements ContaDAO {
   @Override
   public void updateSaldo(Conta conta) {
     PreparedStatement stmt = null;
+    conn = ConnectionManager.getInstance().getConnectionDB();
 
     try {
-      conn = ConnectionManager.getInstance().getConnectionDB();
       stmt = conn.prepareStatement("UPDATE T_FT_CONTA SET VL_SALDO = ? WHERE NR_CONTA = ?");
+      conn.setAutoCommit(false);
 
       stmt.setDouble(1, conta.getSaldo());
       stmt.setInt(2, conta.getNumConta());
 
       System.out.println("Saldo atualizado com sucesso!");
       stmt.executeUpdate();
+      conn.commit();
 
     } catch (SQLException e) {
       e.printStackTrace();
       System.out.println("Não foi possível atualizar o saldo.");
+      try {
+        conn.rollback();
+      } catch (SQLException e1) {
+        e1.printStackTrace();
+        System.out.println("ROLLBACK no atualiza saldo conta!");
+      }
     } finally {
       DbUtils.closeQuietly(stmt);
       DbUtils.closeQuietly(conn);
@@ -122,7 +130,7 @@ public class OracleContaDAO implements ContaDAO {
         contas.add(new Conta(numConta, numCPF, nomeConta, saldo));
 
       }
-      
+
       System.out.println("Contas obtida com sucesso!");
       return contas;
 
@@ -135,6 +143,15 @@ public class OracleContaDAO implements ContaDAO {
       DbUtils.closeQuietly(conn);
     }
     return null;
+  }
+  
+  public static void updateSaldo(Conta conta, Connection conn, PreparedStatement stmt) throws SQLException {
+    stmt = conn.prepareStatement("UPDATE T_FT_CONTA SET VL_SALDO = ? WHERE NR_CONTA = ?");
+
+    stmt.setDouble(1, conta.getSaldo());
+    stmt.setInt(2, conta.getNumConta());
+
+    stmt.executeUpdate();
   }
 
 }

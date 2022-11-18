@@ -163,4 +163,14 @@ public class OracleInvestimentoDAO implements InvestimentoDAO {
     return null;
   }
 
+  public static void updateSaldo(Investimento invest, Connection conn, PreparedStatement stmt) throws SQLException {
+    stmt = conn.prepareStatement("UPDATE T_FT_INVESTIMENTO SET VL_SALDO = ? WHERE CD_INVESTIMENTO = ?");
+
+    stmt.setDouble(1, invest.getSaldo());
+    stmt.setInt(2, invest.getCodInvestimento());
+
+    stmt.executeUpdate();
+
+  }
+
 }

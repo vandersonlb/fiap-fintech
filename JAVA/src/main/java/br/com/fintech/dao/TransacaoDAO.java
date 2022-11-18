@@ -1,5 +1,6 @@
 package br.com.fintech.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import br.com.fintech.bean.Transacao;
