@@ -133,7 +133,7 @@ public class OracleInvestimentoDAO implements InvestimentoDAO {
 
     try {
       conn = ConnectionManager.getInstance().getConnectionDB();
-      stmt = conn.prepareStatement("SELECT * FROM T_FT_INVESTIMENTO WHERE NR_CONTA = ?");
+      stmt = conn.prepareStatement("SELECT * FROM T_FT_INVESTIMENTO WHERE NR_CONTA = ? ORDER BY CD_INVESTIMENTO");
       stmt.setInt(1, numConta);
       rs = stmt.executeQuery();
 

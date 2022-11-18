@@ -20,6 +20,12 @@ public class GrupoCategoria implements Serializable {
     this.nomeGrupo = nomeGrupo;
     this.categorias = categorias;
   }
+  
+  public GrupoCategoria(int codGrupo, String nomeGrupo) {
+    super();
+    this.codGrupo = codGrupo;
+    this.nomeGrupo = nomeGrupo;
+  }
 
   public int getCodGrupo() {
     return codGrupo;
