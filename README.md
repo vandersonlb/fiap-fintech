@@ -23,8 +23,8 @@
 
 #### Java x BD
 - [x] Criar os JavaBeans
-- [ ] Criar todos DAOs
-- [ ] Testes unitários
+- [x] Criar todos DAOs
+- [x] Testes unitários
 
 #### Java x Web
 - [ ] Servelts
