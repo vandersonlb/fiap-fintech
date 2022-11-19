@@ -75,16 +75,20 @@ public class TesteDAOTransacao {
       System.out.println(trans);
     }
 
-    /**
-     * ATALHO PARA CRIAR TRANSACOES PARA TESTE Calendar calendario =
-     * Calendar.getInstance(); Conta conta_1 = contaDAO.getConta(123460);
-     * Investimento invest_1 = investDAO.getInvestimento(13); Tipo entrada =
-     * tipoDAO.getTipo(1); Categoria categoria = categoriaDAO.getCategoria(36);
-     * 
-     * calendario.set(2022, Calendar.NOVEMBER, 21); Calendar dataNasc = calendario;
-     * Transacao transEntrada = new Transacao(conta_1, 0, "ENTRADA", null, entrada,
-     * 1500, dataNasc, categoria, ""); transacaoDAO.createTransacao(transEntrada);
-     **/
+    // DELETANDO UMA TRANSAÇÃO (e atualizando valores)
+    transacaoDAO.deleteTransacao(64);
+
+    // ATALHO PARA CRIAR TRANSACOES PARA TESTE
+    Calendar calendario = Calendar.getInstance();
+    Conta conta_2 = contaDAO.getConta(123460);
+    Investimento invest_2 = investDAO.getInvestimento(13);
+    Tipo tipo = tipoDAO.getTipo(1);
+    Categoria categ = categoriaDAO.getCategoria(36);
+
+    calendario.set(2022, Calendar.NOVEMBER, 21);
+    Calendar dataNasc = calendario;
+    Transacao transTeste = new Transacao(conta_2, 0, "ENTRADA", null, tipo, 1500, dataNasc, categ, "");
+    transacaoDAO.createTransacao(transTeste);
 
   }
 

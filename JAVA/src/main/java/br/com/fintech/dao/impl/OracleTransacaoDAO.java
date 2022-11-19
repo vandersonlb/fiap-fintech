@@ -122,7 +122,50 @@ public class OracleTransacaoDAO implements TransacaoDAO {
 
   @Override
   public void deleteTransacao(int codigo) {
-    // TODO Auto-generated method stub
+    PreparedStatement stmt = null;
+    conn = ConnectionManager.getInstance().getConnectionDB();
+    ContaDAO contaDAO = DAOFactory.getContaDAO();
+    InvestimentoDAO investDAO = DAOFactory.getInvestimentoDAO();
+    Transacao transacao = getTransacao(codigo);
+
+    if (transacao != null) {
+
+      try {
+        conn = ConnectionManager.getInstance().getConnectionDB();
+        stmt = conn.prepareStatement("DELETE FROM T_FT_TRANSACAO WHERE SQ_TRANSACAO = ?");
+        conn.setAutoCommit(false);
+
+        stmt.setInt(1, codigo);
+        stmt.executeUpdate();
+
+        int codTipo = transacao.getTipo().getCodTipo();
+
+        // Atualiza o saldo da conta
+        Conta conta = contaDAO.getConta(transacao.getConta().getNumConta());
+        double valor = (codTipo == 1 || codTipo == 4) ? transacao.getValor() * -1 : transacao.getValor();
+        conta.setSaldo(conta.getSaldo() + valor);
+        OracleContaDAO.updateSaldo(conta, conn, stmt);
+
+        // Atualiza o saldo do investimento
+        if (transacao.getInvestimento() != null && codTipo > 2) {
+          Investimento invest = investDAO.getInvestimento(transacao.getInvestimento().getCodInvestimento());
+          double valorInvest = (codTipo == 3) ? transacao.getValor() * -1 : transacao.getValor();
+          invest.setSaldo(invest.getSaldo() + valorInvest);
+          OracleInvestimentoDAO.updateSaldo(invest, conn, stmt);
+        }
+
+        System.out.println("Transação excluída com sucesso!");
+        conn.commit();
+
+      } catch (SQLException e) {
+        e.printStackTrace();
+        System.out.println("ROLLBACK: Erro na exclusão da transação");
+        DbUtils.rollbackAndCloseQuietly(conn);
+      } finally {
+        DbUtils.closeQuietly(stmt);
+        DbUtils.closeQuietly(conn);
+      }
+    }
 
   }
 
@@ -239,12 +282,8 @@ public class OracleTransacaoDAO implements TransacaoDAO {
       CategoriaDAO categoriaDAO = DAOFactory.getCategoriaoDAO();
 
       conn = ConnectionManager.getInstance().getConnectionDB();
-      String sql = "SELECT * FROM ( "
-          + "SELECT * FROM T_FT_TRANSACAO "
-          + "WHERE extract(month from DT_TRANSACAO) = ? "
-          + "AND extract (year from DT_TRANSACAO) = ? "
-          + "AND NR_CONTA = ? "
-          + "ORDER BY DT_TRANSACAO DESC)"
+      String sql = "SELECT * FROM ( " + "SELECT * FROM T_FT_TRANSACAO " + "WHERE extract(month from DT_TRANSACAO) = ? "
+          + "AND extract (year from DT_TRANSACAO) = ? " + "AND NR_CONTA = ? " + "ORDER BY DT_TRANSACAO DESC)"
           + "WHERE ROWNUM <= 5";
       stmt = conn.prepareStatement(sql);
       stmt.setInt(1, month);
