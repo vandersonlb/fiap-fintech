@@ -154,7 +154,7 @@ public class OracleInvestimentoDAO implements InvestimentoDAO {
 
     } catch (SQLException e) {
       e.printStackTrace();
-      System.out.println("Erro na recuperação do investimento.");
+      System.out.println("Erro na recuperação dos investimentos.");
     } finally {
       DbUtils.closeQuietly(rs);
       DbUtils.closeQuietly(stmt);

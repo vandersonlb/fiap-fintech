@@ -2,17 +2,24 @@ package br.com.fintech.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.dbutils.DbUtils;
 
+import br.com.fintech.bean.Categoria;
 import br.com.fintech.bean.Conta;
 import br.com.fintech.bean.Investimento;
+import br.com.fintech.bean.Tipo;
 import br.com.fintech.bean.Transacao;
+import br.com.fintech.dao.CategoriaDAO;
 import br.com.fintech.dao.ContaDAO;
 import br.com.fintech.dao.InvestimentoDAO;
+import br.com.fintech.dao.TipoDAO;
 import br.com.fintech.dao.TransacaoDAO;
 import br.com.fintech.factory.DAOFactory;
 import br.com.fintech.jdbc.ConnectionManager;
@@ -86,7 +93,30 @@ public class OracleTransacaoDAO implements TransacaoDAO {
 
   @Override
   public void updateTransacao(Transacao transacao) {
-    // TODO Auto-generated method stub
+    PreparedStatement stmt = null;
+
+    try {
+      conn = ConnectionManager.getInstance().getConnectionDB();
+      String sql = "UPDATE T_FT_TRANSACAO SET NM_TRANSACAO = ?, DT_TRANSACAO = ?, CD_CATEGORIA = ?, OB_TRANSACAO = ? WHERE SQ_TRANSACAO = ?";
+      stmt = conn.prepareStatement(sql);
+
+      stmt.setString(1, transacao.getNome());
+      java.sql.Date data = new java.sql.Date(transacao.getData().getTimeInMillis());
+      stmt.setDate(2, data);
+      stmt.setInt(3, transacao.getCategoria().getCodCategoria());
+      stmt.setString(4, transacao.getObsevacao());
+      stmt.setInt(5, transacao.getSequencia());
+
+      System.out.println("Transação atualizada com sucesso!");
+      stmt.executeUpdate();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      System.out.println("Não foi possível atualizar a transação.");
+    } finally {
+      DbUtils.closeQuietly(stmt);
+      DbUtils.closeQuietly(conn);
+    }
 
   }
 
@@ -98,19 +128,158 @@ public class OracleTransacaoDAO implements TransacaoDAO {
 
   @Override
   public Transacao getTransacao(int codigo) {
-    // TODO Auto-generated method stub
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+
+    ContaDAO contaDAO = DAOFactory.getContaDAO();
+    InvestimentoDAO investDAO = DAOFactory.getInvestimentoDAO();
+    TipoDAO tipoDAO = DAOFactory.getTipoDAO();
+    CategoriaDAO categoriaDAO = DAOFactory.getCategoriaoDAO();
+
+    try {
+      conn = ConnectionManager.getInstance().getConnectionDB();
+      stmt = conn.prepareStatement("SELECT * FROM T_FT_TRANSACAO WHERE SQ_TRANSACAO = ?");
+      stmt.setInt(1, codigo);
+      rs = stmt.executeQuery();
+
+      if (rs.next()) {
+        Conta conta = contaDAO.getConta(rs.getInt("NR_CONTA"));
+        int seqTrans = rs.getInt("SQ_TRANSACAO");
+        String nomeTrans = rs.getString("NM_TRANSACAO");
+        Investimento invest = investDAO.getInvestimento(rs.getInt("CD_INVESTIMENTO"));
+        Tipo tipo = tipoDAO.getTipo(rs.getInt("CD_TIPO"));
+        double valor = rs.getDouble("VL_TRANSACAO");
+        java.sql.Date data = rs.getDate("DT_TRANSACAO");
+        Calendar dataTrans = Calendar.getInstance();
+        dataTrans.setTimeInMillis(data.getTime());
+        Categoria categoria = categoriaDAO.getCategoria(rs.getInt("CD_CATEGORIA"));
+        String obs = rs.getString("OB_TRANSACAO");
+
+        Transacao transacao = new Transacao(conta, seqTrans, nomeTrans, invest, tipo, valor, dataTrans, categoria, obs);
+
+        System.out.println("Usuário obtido com sucesso!");
+        return transacao;
+      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      System.out.println("Erro na recuperação do usuário.");
+    } finally {
+      DbUtils.closeQuietly(rs);
+      DbUtils.closeQuietly(stmt);
+      DbUtils.closeQuietly(conn);
+    }
+    return null;
+
+  }
+
+  @Override
+  public List<Transacao> getAllTransacaoByMonth(int numConta, int month, int year) {
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    List<Transacao> transacoes = new ArrayList<Transacao>();
+
+    try {
+      ContaDAO contaDAO = DAOFactory.getContaDAO();
+      Conta conta = contaDAO.getConta(numConta);
+//      InvestimentoDAO investDAO = DAOFactory.getInvestimentoDAO();
+      TipoDAO tipoDAO = DAOFactory.getTipoDAO();
+      CategoriaDAO categoriaDAO = DAOFactory.getCategoriaoDAO();
+
+      conn = ConnectionManager.getInstance().getConnectionDB();
+      String sql = "SELECT * FROM T_FT_TRANSACAO WHERE extract(month from DT_TRANSACAO) = ? AND extract (year from DT_TRANSACAO) = ? AND NR_CONTA = ?";
+      stmt = conn.prepareStatement(sql);
+      stmt.setInt(1, month);
+      stmt.setInt(2, year);
+      stmt.setInt(3, numConta);
+      rs = stmt.executeQuery();
+
+      while (rs.next()) {
+//        Conta conta = contaDAO.getConta(rs.getInt("NR_CONTA"));
+        int seqTrans = rs.getInt("SQ_TRANSACAO");
+        String nomeTrans = rs.getString("NM_TRANSACAO");
+//        Investimento invest = investDAO.getInvestimento(rs.getInt("CD_INVESTIMENTO"));
+        Tipo tipo = tipoDAO.getTipo(rs.getInt("CD_TIPO"));
+        double valor = rs.getDouble("VL_TRANSACAO");
+        java.sql.Date data = rs.getDate("DT_TRANSACAO");
+        Calendar dataTrans = Calendar.getInstance();
+        dataTrans.setTimeInMillis(data.getTime());
+        Categoria categoria = categoriaDAO.getCategoria(rs.getInt("CD_CATEGORIA"));
+        String obs = rs.getString("OB_TRANSACAO");
+
+        transacoes.add(new Transacao(conta, seqTrans, nomeTrans, tipo, valor, dataTrans, categoria, obs));
+
+      }
+
+      System.out.println("Transações obtidas com sucesso!");
+      return transacoes;
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      System.out.println("Erro na recuperação das transações.");
+    } finally {
+      DbUtils.closeQuietly(rs);
+      DbUtils.closeQuietly(stmt);
+      DbUtils.closeQuietly(conn);
+    }
     return null;
   }
 
   @Override
-  public List<Transacao> getLastestTransacaoInMonth(int currentMonth) {
-    // TODO Auto-generated method stub
-    return null;
-  }
+  public List<Transacao> getLastestTransacaoInMonth(int numConta, int month, int year) {
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    List<Transacao> transacoes = new ArrayList<Transacao>();
 
-  @Override
-  public List<Transacao> getAllTransacaoByMonth(int currentMonth) {
-    // TODO Auto-generated method stub
+    try {
+      ContaDAO contaDAO = DAOFactory.getContaDAO();
+      Conta conta = contaDAO.getConta(numConta);
+//      InvestimentoDAO investDAO = DAOFactory.getInvestimentoDAO();
+      TipoDAO tipoDAO = DAOFactory.getTipoDAO();
+      CategoriaDAO categoriaDAO = DAOFactory.getCategoriaoDAO();
+
+      conn = ConnectionManager.getInstance().getConnectionDB();
+      String sql = "SELECT * FROM ( "
+          + "SELECT * FROM T_FT_TRANSACAO "
+          + "WHERE extract(month from DT_TRANSACAO) = ? "
+          + "AND extract (year from DT_TRANSACAO) = ? "
+          + "AND NR_CONTA = ? "
+          + "ORDER BY DT_TRANSACAO DESC)"
+          + "WHERE ROWNUM <= 5";
+      stmt = conn.prepareStatement(sql);
+      stmt.setInt(1, month);
+      stmt.setInt(2, year);
+      stmt.setInt(3, numConta);
+      rs = stmt.executeQuery();
+
+      while (rs.next()) {
+//        Conta conta = contaDAO.getConta(rs.getInt("NR_CONTA"));
+        int seqTrans = rs.getInt("SQ_TRANSACAO");
+        String nomeTrans = rs.getString("NM_TRANSACAO");
+//        Investimento invest = investDAO.getInvestimento(rs.getInt("CD_INVESTIMENTO"));
+        Tipo tipo = tipoDAO.getTipo(rs.getInt("CD_TIPO"));
+        double valor = rs.getDouble("VL_TRANSACAO");
+        java.sql.Date data = rs.getDate("DT_TRANSACAO");
+        Calendar dataTrans = Calendar.getInstance();
+        dataTrans.setTimeInMillis(data.getTime());
+        Categoria categoria = categoriaDAO.getCategoria(rs.getInt("CD_CATEGORIA"));
+        String obs = rs.getString("OB_TRANSACAO");
+
+        transacoes.add(new Transacao(conta, seqTrans, nomeTrans, tipo, valor, dataTrans, categoria, obs));
+
+      }
+
+      System.out.println("Transações obtidas com sucesso!");
+      return transacoes;
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      System.out.println("Erro na recuperação das transações.");
+    } finally {
+      DbUtils.closeQuietly(rs);
+      DbUtils.closeQuietly(stmt);
+      DbUtils.closeQuietly(conn);
+    }
     return null;
   }
 

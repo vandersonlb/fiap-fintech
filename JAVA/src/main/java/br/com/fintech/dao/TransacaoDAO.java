@@ -3,6 +3,7 @@ package br.com.fintech.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import br.com.fintech.bean.Conta;
 import br.com.fintech.bean.Transacao;
 
 public interface TransacaoDAO {
@@ -15,8 +16,8 @@ public interface TransacaoDAO {
 
   Transacao getTransacao(int codigo);
 
-  List<Transacao> getLastestTransacaoInMonth(int currentMonth);
+  List<Transacao> getAllTransacaoByMonth(int numConta, int month, int year);
 
-  List<Transacao> getAllTransacaoByMonth(int currentMonth);
+  List<Transacao> getLastestTransacaoInMonth(int numConta, int month, int year);
 
 }

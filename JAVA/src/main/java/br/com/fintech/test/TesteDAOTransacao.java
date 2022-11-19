@@ -1,6 +1,7 @@
 package br.com.fintech.test;
 
 import java.util.Calendar;
+import java.util.List;
 
 import br.com.fintech.bean.Categoria;
 import br.com.fintech.bean.Conta;
@@ -23,7 +24,7 @@ public class TesteDAOTransacao {
     CategoriaDAO categoriaDAO = DAOFactory.getCategoriaoDAO();
     TransacaoDAO transacaoDAO = DAOFactory.getTransacaoDAO();
 
-    /** CRIANDO TRANSAÇÔES **/
+    /////// CRIANDO TRANSAÇÔES
     Conta conta_1 = contaDAO.getConta(123460);
     Investimento invest_1 = investDAO.getInvestimento(13);
     Tipo entrada = tipoDAO.getTipo(1);
@@ -33,7 +34,8 @@ public class TesteDAOTransacao {
     Categoria categoria = categoriaDAO.getCategoria(36);
 
     // Entrada de 1500 na conta (Espera: Saldo conta = 1500)
-    Transacao transEntrada = new Transacao(conta_1, 0, "ENTRADA", null, entrada, 1500, Calendar.getInstance(), categoria, "");
+    Transacao transEntrada = new Transacao(conta_1, 0, "ENTRADA", null, entrada, 1500, Calendar.getInstance(),
+        categoria, "");
     transacaoDAO.createTransacao(transEntrada);
 
     // Gasto de 500 (Espera: Saldo conta = 1000)
@@ -41,12 +43,48 @@ public class TesteDAOTransacao {
     transacaoDAO.createTransacao(transSaida);
 
     // Aporte de 700 (Espera: Saldo conta = 300, Saldo investimento = 700)
-    Transacao transAplicacao = new Transacao(conta_1, 0, "APLICAÇÃO", invest_1, aplicacao, 700, Calendar.getInstance(), categoria, "");
+    Transacao transAplicacao = new Transacao(conta_1, 0, "APLICAÇÃO", invest_1, aplicacao, 700, Calendar.getInstance(),
+        categoria, "");
     transacaoDAO.createTransacao(transAplicacao);
 
     // Resgate de 300 (Espera: Saldo conta = 600, Saldo investimento = 400)
-    Transacao transResgate = new Transacao(conta_1, 0, "RESGATE", invest_1, resgate, 300, Calendar.getInstance(), categoria, "");
+    Transacao transResgate = new Transacao(conta_1, 0, "RESGATE", invest_1, resgate, 300, Calendar.getInstance(),
+        categoria, "");
     transacaoDAO.createTransacao(transResgate);
+
+    // RECUPERANDO E ATUALIZANDO UMA TRANSACAO
+    Transacao transacao = transacaoDAO.getTransacao(14);
+    transacao.setNome("TESTE ATUALIZAÇÃO");
+    transacao.setData(Calendar.getInstance());
+    transacao.setCategoria(categoriaDAO.getCategoria(25));
+    transacao.setObsevacao("Isso é um teste de atualização");
+
+    transacaoDAO.updateTransacao(transacao);
+
+    // RECUPERANDO TODAS AS TRANSAÇÕES DE UM USUÁRIO NO MÊS
+    List<Transacao> allTransac = transacaoDAO.getAllTransacaoByMonth(123460, 11, 2022);
+
+    for (Transacao trans : allTransac) {
+      System.out.println(trans);
+    }
+
+    // RECUPERANDO AS ÚLTIMAS TRANSAÇÕES DO MÊS
+    List<Transacao> lastestTransac = transacaoDAO.getLastestTransacaoInMonth(123460, 11, 2022);
+
+    for (Transacao trans : lastestTransac) {
+      System.out.println(trans);
+    }
+
+    /**
+     * ATALHO PARA CRIAR TRANSACOES PARA TESTE Calendar calendario =
+     * Calendar.getInstance(); Conta conta_1 = contaDAO.getConta(123460);
+     * Investimento invest_1 = investDAO.getInvestimento(13); Tipo entrada =
+     * tipoDAO.getTipo(1); Categoria categoria = categoriaDAO.getCategoria(36);
+     * 
+     * calendario.set(2022, Calendar.NOVEMBER, 21); Calendar dataNasc = calendario;
+     * Transacao transEntrada = new Transacao(conta_1, 0, "ENTRADA", null, entrada,
+     * 1500, dataNasc, categoria, ""); transacaoDAO.createTransacao(transEntrada);
+     **/
 
   }
 
