@@ -27,7 +27,7 @@ public class OracleUsuarioDAO implements UsuarioDAO {
       stmt.setString(2, usuario.getNome());
       java.sql.Date dataNasc = new java.sql.Date(usuario.getDataNasc().getTimeInMillis());
       stmt.setDate(3, dataNasc);
-      stmt.setString(4, usuario.getEmail());
+      stmt.setString(4, usuario.getEmail().toLowerCase());
       stmt.setString(5, usuario.getCelular());
       stmt.setString(6, usuario.getSenha());
 
@@ -51,7 +51,7 @@ public class OracleUsuarioDAO implements UsuarioDAO {
 
     try {
       conn = ConnectionManager.getInstance().getConnectionDB();
-      stmt = conn.prepareStatement("SELECT * FROM T_FT_USUARIO WHERE DS_EMAIL = ?");
+      stmt = conn.prepareStatement("SELECT * FROM T_FT_USUARIO WHERE DS_EMAIL = LOWER(?)");
       stmt.setString(1, usuario.getEmail());
       rs = stmt.executeQuery();
 
@@ -86,7 +86,7 @@ public class OracleUsuarioDAO implements UsuarioDAO {
 
     try {
       conn = ConnectionManager.getInstance().getConnectionDB();
-      String sql = "UPDATE T_FT_USUARIO SET NM_COMPLETO = ?, DT_NASCIMENTO = ?, NR_CELULAR = ? WHERE DS_EMAIL = ?";
+      String sql = "UPDATE T_FT_USUARIO SET NM_COMPLETO = ?, DT_NASCIMENTO = ?, NR_CELULAR = ? WHERE DS_EMAIL = LOWER(?)";
       stmt = conn.prepareStatement(sql);
 
       stmt.setString(1, usuario.getNome());
@@ -115,7 +115,7 @@ public class OracleUsuarioDAO implements UsuarioDAO {
 
     try {
       conn = ConnectionManager.getInstance().getConnectionDB();
-      stmt = conn.prepareStatement("SELECT * FROM T_FT_USUARIO WHERE DS_EMAIL = ? AND DS_SENHA = ?");
+      stmt = conn.prepareStatement("SELECT * FROM T_FT_USUARIO WHERE DS_EMAIL = LOWER(?) AND DS_SENHA = ?");
       stmt.setString(1, usuario.getEmail());
       stmt.setString(2, usuario.getSenha());
       rs = stmt.executeQuery();

@@ -16,21 +16,21 @@ public class TesteDAOUsuario {
     // CRIAR USUARIO
     calendario.set(1985, Calendar.JUNE, 16);
     dataNasc = calendario;
-    Usuario vanderson_1 = new Usuario(Long.parseLong("32582511854"), "Vanderson Luis Bonacuore", dataNasc,
-        "vandersonlb@hotmail.com", "11967533321", "123456");
+    Usuario vanderson_1 = new Usuario(Long.parseLong("32582511855"), "Vanderson Luis Bonacuore", dataNasc,
+        "VANDERSON@hotmail.com", "11967533321", "123456");
 
     usuarioDAO.createUsuario(vanderson_1);
-
+    
     // RECUPERAR USUARIO
-    Usuario teste1 = new Usuario("vandersonlb@hotmail.com", "123abc");
+    Usuario teste1 = new Usuario("vanDERSon@hotmail.com", "123abc");
     Usuario teste2 = new Usuario("fabio.coelho@gmail.com", "123abc");
     System.out.println(usuarioDAO.getUsuario(teste1));
     System.out.println(usuarioDAO.getUsuario(teste2));
 
     // ATUALIZAR USUARIO
-    Usuario vanderson_2 = usuarioDAO.getUsuario(new Usuario("vandersonlb@hotmail.com", "123"));
+    Usuario vanderson_2 = usuarioDAO.getUsuario(new Usuario("vAnDerSon@hotmail.com", "123"));
     vanderson_2.setNome("Vanderson L. B.");
-    vanderson_2.setCelular("11999999999");
+    vanderson_2.setCelular("11999998999");
     calendario.set(2033, Calendar.OCTOBER, 17);
     dataNasc = calendario;
     vanderson_2.setDataNasc(dataNasc);
@@ -41,7 +41,7 @@ public class TesteDAOUsuario {
     Usuario vanderson_3 = new Usuario("vandersonlb@hotmail.com", "123456");
     System.out.println(usuarioDAO.authUsuario(vanderson_3));
 
-    Usuario desconhecido = new Usuario("fulano@detal.com.br", "123456");
+    Usuario desconhecido = new Usuario("vAndeRson@hotmail.com", "123456");
     System.out.println(usuarioDAO.authUsuario(desconhecido));
 
   }

@@ -45,7 +45,8 @@
           <div class="input-group">
             <input type="password" class="form-control" id="password" required />
             <span class="input-group-text" type="button">
-              <i class="bi bi-eye"></i>
+              <i class="bi bi-eye-slash"></i>
+              <!-- <a href=""><i class="bi bi-eye" aria-hidden="true"></i> -->
             </span>
           </div>
         </div>
@@ -60,12 +61,42 @@
         </div>
       </form>
 
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Usuário ou senha incorretos!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+
       <div class="text-center">
         <a href="#" class="text-primary text-decoration-none">Não tenho cadastro</a>
       </div>
 
     </div>
   </main>
+
+  <script>
+    window.addEventListener("load", () => {
+      const eyeButton = document.querySelector(".input-group-text .bi");
+      const passInput = document.querySelector("#password");
+      console.log(eyeButton);
+
+      eyeButton.addEventListener("click", evt => {
+        if (passInput.getAttribute("type") == "text") {
+          console.log("text");
+          passInput.setAttribute("type", "password");
+          eyeButton.classList.remove("bi-eye");
+          eyeButton.classList.add("bi-eye-slash");
+        } else if (passInput.getAttribute("type") == "password") {
+          console.log("password");
+          passInput.setAttribute("type", "text");
+          eyeButton.classList.remove("bi-eye-slash");
+          eyeButton.classList.add("bi-eye");
+        }
+      })
+    });
+  </script>
+
+  <script src=""></script>
+
 </body>
 
 </html>
