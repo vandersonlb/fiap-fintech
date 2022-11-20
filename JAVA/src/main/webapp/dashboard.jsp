@@ -13,23 +13,52 @@
   </header>
 
   <main class="container-fluid mb-4">
+    
+     <c:set var="usuario" value="${sessionScope.usuario}"></c:set>
+     <c:set var="conta" value="${usuario.contas.size() > 0 ? usuario.contas.get(0) : null }"></c:set>
+     <c:set var="invests" value="${conta.investimentos.size() > 0 ? conta.investimentos : null }"></c:set>
+     <c:set var="ultimas" value="${sessionScope.ultimasTransacoes }"></c:set>
+    
+     <p><b>Usuário</b>: <c:out value="${usuario.nome}"></c:out></p>
+     <p><b>Conta</b>: <c:out value="${conta}"></c:out></p>
+     <p><b>Investimentos</b>: <c:out value="${invests}"></c:out></p>
+     <p><b>Ultimas</b>: <c:out value="${ultimas}"></c:out></p>
+     
 
     <div class="container-lg">
       <div class="row my-2 pt-4 px-3">
         <div class="col align-self-center">
           <h1 class="h2">Controle Financeiro</h1>
         </div>
+        <!-- 
         <div class="align-items-baseline align-self-center col d-flex justify-content-end">
           <p class="d-inline me-3 fs-5 d-none d-md-inline w-100 w-md-50 text-end">Escolha o mês:</p>
-          <select class="form-select text-center border border-primary text-primary fs-5 fw-semibold w-100 w-md-50" aria-label="Meses" style="max-width: 300px;">
-            <option value="1">Janeiro</option>
-            <option value="2">Fevereiro</option>
-            <option value="3">Março</option>
+          <select id="meses" class="form-select text-center border border-primary text-primary fs-5 fw-semibold w-100 w-md-50" aria-label="Meses" style="max-width: 300px;">
+            <option value="" disabled selected>HSAHSAHSA</option>
+            <option value="dashboard.jsp?conta=${numConta}&mes=11&ano=2022"> Novembro </option>
+            <option value="dashboard.jsp?conta=${numConta}&mes=12&ano=2022"> Dezembro </option>
+            <option value="dashboard.jsp?conta=${numConta}&mes=1&ano=2023"> Janeiro 2023</option>
+            <option value="2-2023">Fevereiro 2023</option>
+            <option value="3-2023">Março 2023</option>
+            <option value="4-2023">Abril 2023</option>
+            <option value="5-2023">Maio 2023</option>
+            <option value="6-2023">Junho 2023</option>
+            <option value="7-2023">Julho 2023</option>
+            <option value="8-2023">Agosto 2023</option>
+            <option value="9-2023">Setembro 2023</option>
+            <option value="10-2023">Outubro 2023</option>
           </select>
         </div>
       </div>
-
-
+      
+      <script>
+        const meses = document.querySelector("#meses");
+        meses.addEventListener('change', function () {
+       	  console.log(666)
+          location.href = this.value;
+        });
+      </script>
+       -->
       <div class="row">
 
         <div class="col-12 col-lg-6 px-3">
@@ -37,6 +66,7 @@
           <div class="card shadow p-4">
             
             <!-- Exbir quando não tiver investimentos -->
+            <c:if test="${invests == null}">
             <div class="row p-5 pb-3 align-items-md-center">
               <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                 <img src="./_assets/img_investimento.svg" class="rounded mx-auto d-block" width="232" height="152">
@@ -50,10 +80,11 @@
                 </p>
               </div>
             </div>
+            </c:if>
             <!-- FIM -->
             
             <!-- Exibir quando tiver investimentos-->
-            <!--
+            <c:if test="${invests != null}">
             <div class="mb-4 hide-actions">
               <span class="h6 mb-1 d-block">Renda</span>
               <span class="h5 text-success">R$ 10.000,00</span>
@@ -68,7 +99,7 @@
                 </button>
               </div>
             </div>
-            -->
+            </c:if>
             <!-- FIM -->
 
             <div class="mt-3 d-grid gap-2 d-md-block d-lg-grid d-xl-block justify-content-center">
@@ -87,7 +118,7 @@
           <div class="card shadow p-4">
 
             <!-- Exbir quando não tiver conta criada -->
-            <!--
+            <c:if test="${conta == null}">
             <div class="row p-5 pb-3 align-items-md-center">
               <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                 <img src="./_assets/img_conta.svg" class="rounded mx-auto d-block" width="232" height="152">
@@ -101,11 +132,11 @@
                 </p>
               </div>
             </div>
-            -->
+            </c:if>
             <!-- FIM -->
 
             <!-- Exibir quando tiver conta criada mas sem transações -->
-            <!--
+            <c:if test="${conta != null && ultimas == null}">
             <div class="row p-5 pb-3 align-items-md-center">
               <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                 <img src="./_assets/img_transacao.svg" class="rounded mx-auto d-block" width="232" height="152">
@@ -119,11 +150,11 @@
                 </p>
               </div>
             </div>
-            -->
+            </c:if>
             <!-- FIM -->
 
             <!-- Exibir quando tiver conta criada com lançamentos -->
-            
+            <c:if test="${conta != null && ultimas != null}">
             <div class="row my-3 flex-wrap flex-sm-nowrap">
               <div class="col d-flex">
                 <i class="bi bi-basket fs-3 border border-primary rounded-circle text-primary icone"></i>
@@ -184,11 +215,11 @@
                 <span class="h5">R$ 35,00</span>
               </div>
             </div>
-            
+            </c:if>
             <!-- FIM -->
 
             <!-- Exibir quando não tiver conta criada -->
-            <!--
+            <c:if test="${conta == null}">
             <div class="mt-3 d-grid gap-2 d-md-block d-lg-grid d-xl-block justify-content-center">
               <button class="btn btn-lg btn-primary px-5" type="button">
                 <a href="#" class="text-decoration-none text-white">
@@ -196,11 +227,11 @@
                 </a>
               </button>
             </div>
-            -->
+            </c:if>
             <!-- FIM -->
             
             <!-- Exibir quando tiver conta criada -->
-            
+            <c:if test="${conta != null}">
             <div class="row">
               <div class="col">
                 <div class="d-flex flex-column flex-sm-row gap-2 mt-3">
@@ -217,7 +248,7 @@
                 </div>
               </div>
             </div>
-            
+            </c:if>
             <!-- FIM -->
             
             
@@ -227,14 +258,14 @@
     </div>
 
     <!-- Exibir quando tiver uma conta criada -->
-    <!--
+    <c:if test="${conta != null}">
     <div class="position-fixed bottom-0 start-50 translate-middle-x">
       <div class="row badge bg-secondary mb-4 p-2 p-sm-3 d-sm-flex">
         <div class="col fs-5 fw-normal lh-sm">Saldo atual</div>
         <div class="col fs-5 fw-bold lh-sm">R$ 1.500,00</div>
       </div>
     </div>
-    -->
+    </c:if>
     <!-- FIM -->
   </main>
 

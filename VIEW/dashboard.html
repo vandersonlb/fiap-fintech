@@ -24,13 +24,15 @@
         <a class="navbar-brand" href="./index.html">
           <img src="./assets/ft_logo_hor.svg" alt="" width="150">
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown"
+          aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavDarkDropdown">
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle text-end" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a class="nav-link dropdown-toggle text-end" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
                 <span class="text-primary fs-4 me-3">Nome da pessoa</span>
                 <i class="bi bi-person-circle fs-3 text-primary"></i>
               </a>
@@ -54,13 +56,35 @@
         </div>
         <div class="align-items-baseline align-self-center col d-flex justify-content-end">
           <p class="d-inline me-3 fs-5 d-none d-md-inline w-100 w-md-50 text-end">Escolha o mês:</p>
-          <select class="form-select text-center border border-primary text-primary fs-5 fw-semibold w-100 w-md-50" aria-label="Meses" style="max-width: 300px;">
-            <option value="1">Janeiro</option>
-            <option value="2">Fevereiro</option>
-            <option value="3">Março</option>
+          <select id="meses"
+            class="form-select text-center border border-primary text-primary fs-5 fw-semibold w-100 w-md-50"
+            aria-label="Meses" style="max-width: 300px;">
+            <option>Selecione uma opção</option>
+            <option value="https://www.google.com">Google</option>
+            <option value="https://www.facebook.com">Facebook</option>
+            <option value="https://www.twitter.com">Twitter</option>
+            <option value="11-2022" selected>Novembro</option>
+            <option value="12-2022">Dezembro</option>
+            <option value="1-2023">Janeiro 2023</option>
+            <option value="2-2023">Fevereiro 2023</option>
+            <option value="3-2023">Março 2023</option>
+            <option value="4-2023">Abril 2023</option>
+            <option value="5-2023">Maio 2023</option>
+            <option value="6-2023">Junho 2023</option>
+            <option value="7-2023">Julho 2023</option>
+            <option value="8-2023">Agosto 2023</option>
+            <option value="9-2023">Setembro 2023</option>
+            <option value="10-2023">Outubro 2023</option>
           </select>
         </div>
       </div>
+
+      <script>
+        const meses = document.querySelector("#meses");
+        meses.addEventListener('change', function () {
+          location.href = this.value;
+        });
+      </script>
 
 
       <div class="row">
@@ -68,7 +92,7 @@
         <div class="col-12 col-lg-6 px-3">
           <h2 class="h4 p-3">Investimentos</h2>
           <div class="card shadow p-4">
-            
+
             <!-- Exbir quando não tiver investimentos -->
             <div class="row p-5 pb-3 align-items-md-center">
               <div class="col-12 col-md-6 col-lg-12 col-xl-6">
@@ -84,7 +108,7 @@
               </div>
             </div>
             <!-- FIM -->
-            
+
             <!-- Exibir quando tiver investimentos-->
             <!--
             <div class="mb-4 hide-actions">
@@ -156,7 +180,7 @@
             <!-- FIM -->
 
             <!-- Exibir quando tiver conta criada com lançamentos -->
-            
+
             <div class="row my-3 flex-wrap flex-sm-nowrap">
               <div class="col d-flex">
                 <i class="bi bi-basket fs-3 border border-primary rounded-circle text-primary icone"></i>
@@ -217,7 +241,7 @@
                 <span class="h5">R$ 35,00</span>
               </div>
             </div>
-            
+
             <!-- FIM -->
 
             <!-- Exibir quando não tiver conta criada -->
@@ -231,9 +255,9 @@
             </div>
             -->
             <!-- FIM -->
-            
+
             <!-- Exibir quando tiver conta criada -->
-            
+
             <div class="row">
               <div class="col">
                 <div class="d-flex flex-column flex-sm-row gap-2 mt-3">
@@ -242,18 +266,19 @@
                       Ver extrato
                     </a>
                   </button>
-                  <button class="btn btn-lg btn-primary flex-fill" type="button" data-bs-toggle="offcanvas" data-bs-target="#transacao" aria-controls="transacao"> 
+                  <button class="btn btn-lg btn-primary flex-fill" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#transacao" aria-controls="transacao">
                     <!-- <a href="#" class="text-decoration-none text-white"> -->
-                      Adicionar transação
+                    Adicionar transação
                     <!-- </a> -->
                   </button>
                 </div>
               </div>
             </div>
-            
+
             <!-- FIM -->
-            
-            
+
+
           </div>
         </div>
       </div>
@@ -320,7 +345,7 @@
         </div>
         <div class="col-12 pb-5 mb-5">
           <div class="form-floating">
-            <textarea class="form-control" id="observacao" placeholder="Leave a comment here" ></textarea>
+            <textarea class="form-control" id="observacao" placeholder="Leave a comment here"></textarea>
             <label for="observacao">Observação</label>
           </div>
         </div>

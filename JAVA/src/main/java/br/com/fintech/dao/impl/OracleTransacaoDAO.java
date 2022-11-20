@@ -217,7 +217,7 @@ public class OracleTransacaoDAO implements TransacaoDAO {
   }
 
   @Override
-  public List<Transacao> getAllTransacaoByMonth(int numConta, int month, int year) {
+  public List<Transacao> getAllTransacao(int numConta) {
     PreparedStatement stmt = null;
     ResultSet rs = null;
     List<Transacao> transacoes = new ArrayList<Transacao>();
@@ -230,11 +230,9 @@ public class OracleTransacaoDAO implements TransacaoDAO {
       CategoriaDAO categoriaDAO = DAOFactory.getCategoriaoDAO();
 
       conn = ConnectionManager.getInstance().getConnectionDB();
-      String sql = "SELECT * FROM T_FT_TRANSACAO WHERE extract(month from DT_TRANSACAO) = ? AND extract (year from DT_TRANSACAO) = ? AND NR_CONTA = ?";
-      stmt = conn.prepareStatement(sql);
-      stmt.setInt(1, month);
-      stmt.setInt(2, year);
-      stmt.setInt(3, numConta);
+//      String sql = "SELECT * FROM T_FT_TRANSACAO WHERE extract(month from DT_TRANSACAO) = ? AND extract (year from DT_TRANSACAO) = ? AND NR_CONTA = ?";
+      stmt = conn.prepareStatement("SELECT * FROM T_FT_TRANSACAO WHERE NR_CONTA = ? ORDER BY DT_TRANSACAO DESC");
+      stmt.setInt(1, numConta);
       rs = stmt.executeQuery();
 
       while (rs.next()) {
@@ -269,7 +267,7 @@ public class OracleTransacaoDAO implements TransacaoDAO {
   }
 
   @Override
-  public List<Transacao> getLastestTransacaoInMonth(int numConta, int month, int year) {
+  public List<Transacao> getLastestTransacao(int numConta) {
     PreparedStatement stmt = null;
     ResultSet rs = null;
     List<Transacao> transacoes = new ArrayList<Transacao>();
@@ -282,13 +280,11 @@ public class OracleTransacaoDAO implements TransacaoDAO {
       CategoriaDAO categoriaDAO = DAOFactory.getCategoriaoDAO();
 
       conn = ConnectionManager.getInstance().getConnectionDB();
-      String sql = "SELECT * FROM ( " + "SELECT * FROM T_FT_TRANSACAO " + "WHERE extract(month from DT_TRANSACAO) = ? "
-          + "AND extract (year from DT_TRANSACAO) = ? " + "AND NR_CONTA = ? " + "ORDER BY DT_TRANSACAO DESC)"
-          + "WHERE ROWNUM <= 5";
-      stmt = conn.prepareStatement(sql);
-      stmt.setInt(1, month);
-      stmt.setInt(2, year);
-      stmt.setInt(3, numConta);
+//      String sql = "SELECT * FROM ( " + "SELECT * FROM T_FT_TRANSACAO " + "WHERE extract(month from DT_TRANSACAO) = ? "
+//          + "AND extract (year from DT_TRANSACAO) = ? " + "AND NR_CONTA = ? " + "ORDER BY DT_TRANSACAO DESC)"
+//          + "WHERE ROWNUM <= 5";
+      stmt = conn.prepareStatement("SELECT * FROM (SELECT * FROM T_FT_TRANSACAO WHERE NR_CONTA = ? ORDER BY DT_TRANSACAO DESC) WHERE ROWNUM <= 5");
+      stmt.setInt(1, numConta);
       rs = stmt.executeQuery();
 
       while (rs.next()) {

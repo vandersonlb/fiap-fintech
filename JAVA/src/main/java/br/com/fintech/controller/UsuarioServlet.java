@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -14,9 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import br.com.fintech.bean.Conta;
-import br.com.fintech.bean.Investimento;
-import br.com.fintech.bean.Transacao;
 import br.com.fintech.bean.Usuario;
 import br.com.fintech.dao.UsuarioDAO;
 import br.com.fintech.factory.DAOFactory;
@@ -31,6 +27,43 @@ public class UsuarioServlet extends HttpServlet {
   public UsuarioServlet() {
     super();
     usuarioDAO = DAOFactory.getUsuarioDAO();
+  }
+
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    try {
+      
+      String nome = request.getParameter("nome");
+      String celular = request.getParameter("tel");
+      SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+      Calendar dataNasc = Calendar.getInstance();
+      try {
+        dataNasc.setTime(format.parse(request.getParameter("date")));
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+
+      Usuario usuarioTemp = new Usuario(request.getParameter("email"), "000000");
+      usuario = usuarioDAO.getUsuario(usuarioTemp);
+      usuario.setNome(nome);
+      usuario.setCelular(celular);
+      usuario.setDataNasc(dataNasc);
+      
+      usuarioDAO.updateUsuario(usuario);
+
+//      Map<String, String[]> params = request.getParameterMap();
+//      params.forEach((k, v) -> System.out.println((k.toString() + ":" + v[0])));
+      
+      request.setAttribute("error", "Entre novamente, fique à vontade.");
+      request.getRequestDispatcher("login.jsp").forward(request, response);
+    
+    } catch (Exception e) {
+      e.printStackTrace();
+      request.setAttribute("error", "Algo errado não tá certo!");
+      request.getRequestDispatcher("login.jsp").forward(request, response);
+    }
+
   }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

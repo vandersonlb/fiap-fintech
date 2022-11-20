@@ -62,14 +62,14 @@ public class TesteDAOTransacao {
     transacaoDAO.updateTransacao(transacao);
 
     // RECUPERANDO TODAS AS TRANSAÇÕES DE UM USUÁRIO NO MÊS
-    List<Transacao> allTransac = transacaoDAO.getAllTransacaoByMonth(123460, 11, 2022);
+    List<Transacao> allTransac = transacaoDAO.getAllTransacao(123460);
 
     for (Transacao trans : allTransac) {
       System.out.println(trans);
     }
 
     // RECUPERANDO AS ÚLTIMAS TRANSAÇÕES DO MÊS
-    List<Transacao> lastestTransac = transacaoDAO.getLastestTransacaoInMonth(123460, 11, 2022);
+    List<Transacao> lastestTransac = transacaoDAO.getLastestTransacao(123460);
 
     for (Transacao trans : lastestTransac) {
       System.out.println(trans);

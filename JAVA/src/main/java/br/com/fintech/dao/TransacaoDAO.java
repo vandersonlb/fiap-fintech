@@ -16,8 +16,8 @@ public interface TransacaoDAO {
 
   Transacao getTransacao(int codigo);
 
-  List<Transacao> getAllTransacaoByMonth(int numConta, int month, int year);
+  List<Transacao> getAllTransacao(int numConta);
 
-  List<Transacao> getLastestTransacaoInMonth(int numConta, int month, int year);
+  List<Transacao> getLastestTransacao(int numConta);
 
 }

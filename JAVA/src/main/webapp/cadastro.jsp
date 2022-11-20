@@ -34,7 +34,7 @@
         </c:if>
         
         <form class="row g-3 needs-validation" action="user" method="post" novalidate>
-          <input type="hidden" name="action" value="create">
+          <!--  <input type="hidden" name="action" value="create">  -->
           <div class="col-12">
             <label for="nome" class="form-label">Nome</label>
             <input type="text" class="form-control" id="nome" name="nome" maxlength="30" placeholder="Digite seu nome completo" required>

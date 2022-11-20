@@ -69,6 +69,7 @@ public class LoginServelt extends HttpServlet {
 //    Map<String, String[]> params = request.getParameterMap();
 //    params.forEach((k, v) -> System.out.println((k.toString() + ":" + v[0])));
 
+    HttpSession session = request.getSession();
     Usuario usuario = new Usuario(email, senha);
 
     if (usuarioDAO.authUsuario(usuario)) {
@@ -85,15 +86,13 @@ public class LoginServelt extends HttpServlet {
         invests = investDAO.getAllInvestimentoByConta(contas.get(0).getNumConta());
         contas.get(0).setInvestimentos(invests);
         usuario.setContas(contas);
-        ultimasTransacoes = transacaoDAO.getLastestTransacaoInMonth(contas.get(0).getNumConta(), 11, 2022);
+        ultimasTransacoes = transacaoDAO.getLastestTransacao(contas.get(0).getNumConta());
+        session.setAttribute("ultimasTransacoes", ultimasTransacoes);
       }
-    
       
-      HttpSession session = request.getSession();
       session.setAttribute("usuario", usuario);
 //      session.setAttribute("grupoCategorias", grupoCategorias);
 //      session.setAttribute("tipos", tipos);
-      session.setAttribute("ultimasTransacoes", ultimasTransacoes);
       
       request.getRequestDispatcher("dashboard.jsp").forward(request, response);
     } else {
