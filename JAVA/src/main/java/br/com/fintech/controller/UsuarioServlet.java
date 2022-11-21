@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -24,8 +25,16 @@ public class UsuarioServlet extends HttpServlet {
   private UsuarioDAO usuarioDAO;
   private Usuario usuario;
 
+  /**
   public UsuarioServlet() {
     super();
+    usuarioDAO = DAOFactory.getUsuarioDAO();
+  }
+  **/
+  
+  @Override
+  public void init() throws ServletException {
+    super.init();
     usuarioDAO = DAOFactory.getUsuarioDAO();
   }
 
@@ -34,29 +43,30 @@ public class UsuarioServlet extends HttpServlet {
 
     try {
       
+      HttpSession session = request.getSession();
+      
       String nome = request.getParameter("nome");
       String celular = request.getParameter("tel");
-      SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+      
       Calendar dataNasc = Calendar.getInstance();
-      try {
-        dataNasc.setTime(format.parse(request.getParameter("date")));
-      } catch (ParseException e) {
-        e.printStackTrace();
-      }
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+      dataNasc.setTime(sdf.parse(request.getParameter("date")));
 
       Usuario usuarioTemp = new Usuario(request.getParameter("email"), "000000");
       usuario = usuarioDAO.getUsuario(usuarioTemp);
       usuario.setNome(nome);
       usuario.setCelular(celular);
-      usuario.setDataNasc(dataNasc);
+      usuario.setDataNasc(dataNasc); // PORQUÊ NÃO FUNCIONA???
       
       usuarioDAO.updateUsuario(usuario);
 
 //      Map<String, String[]> params = request.getParameterMap();
 //      params.forEach((k, v) -> System.out.println((k.toString() + ":" + v[0])));
       
-      request.setAttribute("error", "Entre novamente, fique à vontade.");
-      request.getRequestDispatcher("login.jsp").forward(request, response);
+//      request.setAttribute("error", "Entre novamente, fique à vontade.");
+//      session.setAttribute("usuario", usuario);
+      session.setAttribute("usuario", usuario);
+      request.getRequestDispatcher("dashboard.jsp").forward(request, response);
     
     } catch (Exception e) {
       e.printStackTrace();
@@ -69,17 +79,17 @@ public class UsuarioServlet extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     try {
+      
+      HttpSession session = request.getSession();
+      
       String nome = request.getParameter("nome");
       String email = request.getParameter("email");
       String celular = request.getParameter("tel");
-
-      SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+      
       Calendar dataNasc = Calendar.getInstance();
-      try {
-        dataNasc.setTime(format.parse(request.getParameter("date")));
-      } catch (ParseException e) {
-        e.printStackTrace();
-      }
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+      dataNasc.setTime(sdf.parse(request.getParameter("date")));
+
       String cpf = request.getParameter("cpf");
       String senha = request.getParameter("password");
 
@@ -89,7 +99,6 @@ public class UsuarioServlet extends HttpServlet {
 
       usuarioDAO.createUsuario(usuario);
 
-      HttpSession session = request.getSession();
       session.setAttribute("usuario", usuario);
 
       request.getRequestDispatcher("dashboard.jsp").forward(request, response);

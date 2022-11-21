@@ -9,27 +9,28 @@
 
 <body>
   <header>
+  <fmt:setLocale value = "pt_BR"/>
   <%@ include file="./navbar.jsp" %>
   </header>
 
   <main class="container-fluid mb-4">
-    
-     <c:set var="usuario" value="${sessionScope.usuario}"></c:set>
-     <c:set var="conta" value="${usuario.contas.size() > 0 ? usuario.contas.get(0) : null }"></c:set>
-     <c:set var="invests" value="${conta.investimentos.size() > 0 ? conta.investimentos : null }"></c:set>
-     <c:set var="ultimas" value="${sessionScope.ultimasTransacoes }"></c:set>
-    
-     <p><b>Usuário</b>: <c:out value="${usuario.nome}"></c:out></p>
-     <p><b>Conta</b>: <c:out value="${conta}"></c:out></p>
-     <p><b>Investimentos</b>: <c:out value="${invests}"></c:out></p>
-     <p><b>Ultimas</b>: <c:out value="${ultimas}"></c:out></p>
-     
+      
+     <!-- 
+     <ul>
+       <li><b>Usuário</b>: <c:out value="${usuario}"></c:out></li>
+       <li><b>Conta</b>: <c:out value="${conta}"></c:out></li>
+       <li><b>Investimento</b>: <c:out value="${investimentos}"></c:out></li>
+       <li><b>Ultimas</b>: <c:out value="${ultimasTransacoes}"></c:out></li>
+       <li><b>Ultimas</b>: <c:out value="${Boolean.parseBoolean(ultimasTransacoes)}"></c:out></li>
+     </ul>
+      -->
 
     <div class="container-lg">
       <div class="row my-2 pt-4 px-3">
         <div class="col align-self-center">
           <h1 class="h2">Controle Financeiro</h1>
         </div>
+    </div>
         <!-- 
         <div class="align-items-baseline align-self-center col d-flex justify-content-end">
           <p class="d-inline me-3 fs-5 d-none d-md-inline w-100 w-md-50 text-end">Escolha o mês:</p>
@@ -66,7 +67,7 @@
           <div class="card shadow p-4">
             
             <!-- Exbir quando não tiver investimentos -->
-            <c:if test="${invests == null}">
+            <c:if test="${investimentos == null || investimentos.size() == 0}">
             <div class="row p-5 pb-3 align-items-md-center">
               <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                 <img src="./_assets/img_investimento.svg" class="rounded mx-auto d-block" width="232" height="152">
@@ -84,29 +85,45 @@
             <!-- FIM -->
             
             <!-- Exibir quando tiver investimentos-->
-            <c:if test="${invests != null}">
-            <div class="mb-4 hide-actions">
-              <span class="h6 mb-1 d-block">Renda</span>
-              <span class="h5 text-success">R$ 10.000,00</span>
-              <div class="progress mt-2">
-                <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <div class="position-absolute top-0 end-0 pe-3 pt-4">
-                <button type="button" class="btn btn-link">
-                  <a href="#">
+            <c:if test="${investimentos != null && investimentos.size() > 0}">
+              <c:forEach var="invest" items="${investimentos}">
+              <div class="mb-4 hide-actions position-relative">
+                <span class="h6 mb-1 d-block">${invest.nomeInvestimento}</span>
+                <span class="h5 text-success">
+                  <fmt:formatNumber value = "${invest.saldo}" type = "currency"/>
+                </span>
+                <div class="progress mt-2">
+                  <c:set var="percent" value="${Math.round(invest.saldo/invest.meta * 100)}"></c:set>
+                  <c:choose>
+                    <c:when test="${percent <= 15}">
+                      <c:set var="color" value="bg-danger"></c:set>
+                    </c:when>    
+                    <c:when test="${percent < 50}">
+                      <c:set var="color" value="bg-warning"></c:set>
+                    </c:when>    
+                    <c:when test="${percent < 85}">
+                      <c:set var="color" value="bg-info"></c:set>
+                    </c:when>    
+                    <c:otherwise>
+                      <c:set var="color" value="bg-success"></c:set>
+                    </c:otherwise>
+                  </c:choose>
+                  <div class="progress-bar ${color}" role="progressbar" style="width: ${percent}%" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="${invest.meta}"></div>
+                </div>
+                <div class="position-absolute top-0 end-0">
+                  <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#deleteInvestimentoModal"
+                  onclick="codigo.value = ${invest.codInvestimento}">
                     <i class="bi-trash3 text-danger fs-4 fw-bold"></i>
-                  </a>
-                </button>
+                  </button>
+                </div>
               </div>
-            </div>
+              </c:forEach>
             </c:if>
             <!-- FIM -->
 
             <div class="mt-3 d-grid gap-2 d-md-block d-lg-grid d-xl-block justify-content-center">
-              <button class="btn btn-lg btn-primary px-5" type="button">
-                <a href="#" class="text-decoration-none text-white">
-                  Adicionar investimento
-                </a>
+              <button class="btn btn-lg btn-primary px-5" type="button" data-bs-toggle="modal" data-bs-target="#addInvestimentoModal">
+                Adicionar investimento
               </button>
             </div>
           </div>
@@ -136,7 +153,7 @@
             <!-- FIM -->
 
             <!-- Exibir quando tiver conta criada mas sem transações -->
-            <c:if test="${conta != null && ultimas == null}">
+            <c:if test="${conta != null && ultimasTransacoes == null}">
             <div class="row p-5 pb-3 align-items-md-center">
               <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                 <img src="./_assets/img_transacao.svg" class="rounded mx-auto d-block" width="232" height="152">
@@ -154,7 +171,7 @@
             <!-- FIM -->
 
             <!-- Exibir quando tiver conta criada com lançamentos -->
-            <c:if test="${conta != null && ultimas != null}">
+            <c:if test="${conta != null && ultimasTransacoes != null}">
             <div class="row my-3 flex-wrap flex-sm-nowrap">
               <div class="col d-flex">
                 <i class="bi bi-basket fs-3 border border-primary rounded-circle text-primary icone"></i>
@@ -221,10 +238,10 @@
             <!-- Exibir quando não tiver conta criada -->
             <c:if test="${conta == null}">
             <div class="mt-3 d-grid gap-2 d-md-block d-lg-grid d-xl-block justify-content-center">
-              <button class="btn btn-lg btn-primary px-5" type="button">
-                <a href="#" class="text-decoration-none text-white">
+              <button class="btn btn-lg btn-primary px-5" type="button" data-bs-toggle="modal" data-bs-target="#addContaModal">
+                <!--  <a href="#" class="text-decoration-none text-white">  -->
                   &nbsp; &nbsp; Adicionar conta &nbsp; &nbsp;
-                </a>
+                <!--  </a>  -->
               </button>
             </div>
             </c:if>
@@ -262,7 +279,9 @@
     <div class="position-fixed bottom-0 start-50 translate-middle-x">
       <div class="row badge bg-secondary mb-4 p-2 p-sm-3 d-sm-flex">
         <div class="col fs-5 fw-normal lh-sm">Saldo atual</div>
-        <div class="col fs-5 fw-bold lh-sm">R$ 1.500,00</div>
+        <div class="col fs-5 fw-bold lh-sm">
+          <fmt:formatNumber value = "${conta.saldo}" type = "currency"/>
+        </div>
       </div>
     </div>
     </c:if>
@@ -337,6 +356,142 @@
     <div class="background__wave background__wave--mask">
     </div>
   </footer>
+  
+  
+    <!-- Modal ADICIONAR CONTA -->
+    <div class="modal fade" id="addContaModal" tabindex="-1" aria-labelledby="addContaModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Adicionar conta</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          
+            <c:if test="${not empty error}">
+              <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                ${error}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </c:if>
+            
+            <form id="addContaForm" class="row g-3 needs-validation" action="conta" method="POST" novalidate>
+              <input type="hidden" name="cpf" value="${usuario.numCPF}">
+              <!--  <input type="hidden" name="action" value="update" >  -->
+                            
+              <div class="col-12">
+                <label for="nome" class="form-label">Nome da conta</label>
+                <input type="text" class="form-control" id="nome" name="nome" maxlength="20" placeholder="Nomeie a sua conta" required>
+                <div class="invalid-feedback">
+                  Campo obrigatório, por mais ridículo que seja.
+                </div>
+              </div>
+              <div class="col-12">
+                <label for="saldo" class="form-label">Saldo atual</label>
+                <input type="number" class="form-control" id="saldo" name="saldo" maxlength="12" placeholder="R$" required>
+                <div class="invalid-feedback">
+                  Relaxa, não vamos contar pra ninguém.
+                </div>
+              </div>
+            </form>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Mudei de ideia</button>
+            <button class="btn btn-primary" form="addContaForm" type="submit">Adiciona aí, please!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+    
+    <!-- Modal ADICIONAR INVESTIMENTO -->
+    <div class="modal fade" id="addInvestimentoModal" tabindex="-1" aria-labelledby="addInvestimentoModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Adicionar investimento</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          
+            <c:if test="${not empty error}">
+              <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                ${error}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </c:if>
+            
+            <form id="addInvestimentoForm" class="row g-3 needs-validation" action="investimento" method="POST" novalidate>
+              <input type="hidden" name="numConta" value="${conta.numConta}">
+              <!--  <input type="hidden" name="action" value="update" >  -->
+                            
+              <div class="col-12">
+                <label for="nome" class="form-label">Nome do investimento</label>
+                <input type="text" class="form-control" id="nome" name="nome" maxlength="20" placeholder="Nomeie o seu investimento" required>
+                <div class="invalid-feedback">
+                  Campo obrigatório, por mais ridículo que seja.
+                </div>
+              </div>
+              <div class="col-12">
+                <label for="saldo" class="form-label">Saldo atual</label>
+                <input type="number" class="form-control" id="saldo" name="saldo" maxlength="12" placeholder="R$" required>
+                <div class="invalid-feedback">
+                  Relaxa, não vamos contar pra ninguém.
+                </div>
+              </div>
+              <div class="col-12">
+                <label for="meta" class="form-label">Meta</label>
+                <input type="number" class="form-control" id="meta" name="meta" maxlength="12" placeholder="R$" required>
+                <div class="invalid-feedback">
+                  Fique de olho no prêmio, defina um objetivo.
+                </div>
+              </div>
+            </form>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Depois eu faço</button>
+            <button class="btn btn-primary" form="addInvestimentoForm" type="submit">Vai dar certo, confia!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+ 
+    <!-- Modal DELETAR INVESTIMENTO -->
+    <div class="modal fade" id="deleteInvestimentoModal" tabindex="-1" aria-labelledby="deleteInvestimentoModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Confirmar exclusão</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          
+            <c:if test="${not empty error}">
+              <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                ${error}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </c:if>
+            <p>Você está prestes a me deletar :S</p>
+          </div>
+          <div class="modal-footer">
+            <form id="deleteInvestimentoForm" class="row g-3 needs-validation" action="investimento" method="GET" novalidate>
+              <input type="hidden" name="numConta" value="${conta.numConta}">
+              <input type="hidden" name="codigo" id="codigo">
+            </form>
+            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Deixa isso aí</button>
+            <button class="btn btn-primary" form="deleteInvestimentoForm" type="submit">Isso mesmo, pode excluir!</button>
+          </div>
+        </div>
+      </div>
+    </div>    
+
+  
+    <script src="./_script/form-validation.js"></script>
+  
 </body>
 
 </html>

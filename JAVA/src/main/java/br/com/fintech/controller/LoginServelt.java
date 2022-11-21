@@ -1,6 +1,7 @@
 package br.com.fintech.controller;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Map;
 
@@ -30,26 +31,35 @@ import br.com.fintech.factory.DAOFactory;
 public class LoginServelt extends HttpServlet {
 
   private static final long serialVersionUID = 1L;
-  
+
   private UsuarioDAO usuarioDAO;
 //  private CategoriaDAO categoriaDAO;
   private ContaDAO contaDAO;
   private InvestimentoDAO investDAO;
 //  private TipoDAO tipoDAO;
   private TransacaoDAO transacaoDAO;
-  
-  private Usuario usuario;
+
+//  private Usuario usuario;
 //  private Categoria categoria;
 //  private Tipo tipo;
 //  private Conta conta;
 //  private Investimento invest;
 //  private Transacao transac;
 
-  public LoginServelt() {
-    super();
+  /**
+   * public LoginServelt() { super(); usuarioDAO = DAOFactory.getUsuarioDAO(); //
+   * categoriaDAO = DAOFactory.getCategoriaoDAO(); // tipoDAO =
+   * DAOFactory.getTipoDAO(); contaDAO = DAOFactory.getContaDAO(); investDAO =
+   * DAOFactory.getInvestimentoDAO(); transacaoDAO = DAOFactory.getTransacaoDAO();
+   * }
+   **/
+
+  @Override
+  public void init() throws ServletException {
+    super.init();
     usuarioDAO = DAOFactory.getUsuarioDAO();
-//    categoriaDAO = DAOFactory.getCategoriaoDAO();
-//    tipoDAO = DAOFactory.getTipoDAO();
+//  categoriaDAO = DAOFactory.getCategoriaoDAO();
+//  tipoDAO = DAOFactory.getTipoDAO();
     contaDAO = DAOFactory.getContaDAO();
     investDAO = DAOFactory.getInvestimentoDAO();
     transacaoDAO = DAOFactory.getTransacaoDAO();
@@ -57,43 +67,52 @@ public class LoginServelt extends HttpServlet {
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     HttpSession session = request.getSession();
+    ;
     session.invalidate();
     request.getRequestDispatcher("login.jsp").forward(request, response);
+    return;
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
   }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String email = request.getParameter("email");
     String senha = request.getParameter("password");
-    
-//    Map<String, String[]> params = request.getParameterMap();
-//    params.forEach((k, v) -> System.out.println((k.toString() + ":" + v[0])));
 
-    HttpSession session = request.getSession();
     Usuario usuario = new Usuario(email, senha);
 
     if (usuarioDAO.authUsuario(usuario)) {
-      
-//      System.out.println("DEU BOA AQUI");
+      HttpSession session = request.getSession();
+
       usuario = usuarioDAO.getUsuario(usuario);
+      session.setAttribute("usuario", usuario);
+//      session.setAttribute("conta", new Array().ge);
+//      session.setAttribute("investimentos", []);
+//      session.setAttribute("ultimasTransacoes", []);
+
+      List<Conta> contas = contaDAO.getAllConta(usuario.getNumCPF());
+      if (contas.size() > 0) {
+
+        Conta conta = contas.get(0);
+        List<Investimento> invests = investDAO.getAllInvestimentoByConta(conta.getNumConta());
+        List<Transacao> ultimasTransacoes = transacaoDAO.getLastestTransacao(conta.getNumConta());
+        ;
+
+        session.setAttribute("conta", conta);
+        session.setAttribute("investimentos", invests);
+        session.setAttribute("ultimasTransacoes", ultimasTransacoes);
+
+      }
+
+//      System.out.println("DEU BOA AQUI");
 //      List<GrupoCategoria> grupoCategorias = categoriaDAO.getAllCategoriaGrouping();
 //      List<Tipo> tipos = tipoDAO.getAllTipo();
-      List<Conta> contas = contaDAO.getAllConta(usuario.getNumCPF());
-      List<Transacao> ultimasTransacoes = null;
-      List<Investimento> invests = null;
-      
-      if (contas.size() > 0) {
-        invests = investDAO.getAllInvestimentoByConta(contas.get(0).getNumConta());
-        contas.get(0).setInvestimentos(invests);
-        usuario.setContas(contas);
-        ultimasTransacoes = transacaoDAO.getLastestTransacao(contas.get(0).getNumConta());
-        session.setAttribute("ultimasTransacoes", ultimasTransacoes);
-      }
-      
-      session.setAttribute("usuario", usuario);
+
 //      session.setAttribute("grupoCategorias", grupoCategorias);
 //      session.setAttribute("tipos", tipos);
-      
+
+      // Map<String, String[]> params = request.getParameterMap();
+//    params.forEach((k, v) -> System.out.println((k.toString() + ":" + v[0])));
+
       request.getRequestDispatcher("dashboard.jsp").forward(request, response);
     } else {
 //      System.out.println("DEU RUIM AQUI");
