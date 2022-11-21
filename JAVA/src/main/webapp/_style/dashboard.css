@@ -67,3 +67,9 @@
 .d-flex.flex-column.ps-2 > .fs-5.text-truncate {
   font-size: 1.2rem !important;
 }
+
+.form-select *:disabled {
+  opacity: 1;
+  font-weight: bold;
+}
+

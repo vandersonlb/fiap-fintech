@@ -50,7 +50,8 @@ public class OracleCategoriaDAO implements CategoriaDAO {
     }
     return null;
   }
-
+  
+  /**
   @Override
   public List<GrupoCategoria> getAllCategoriaGrouping() {
     PreparedStatement stmt = null;
@@ -118,5 +119,93 @@ public class OracleCategoriaDAO implements CategoriaDAO {
     }
     return null;
   }
+  **/
+  
+  @Override
+  public List<GrupoCategoria> getAllCategoriaGrouping() {
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+
+    try {
+      conn = ConnectionManager.getInstance().getConnectionDB();
+      
+//      List<GrupoCategoria> grupos = getAllGrupoCategoria(conn);
+//      List<Categoria> categorias = getAllCategoria(conn);
+      
+//      System.out.println(grupos);
+//      System.out.println(categorias);
+      
+      List<GrupoCategoria> grupos = new ArrayList<>();
+      
+      for (GrupoCategoria grupo : getAllGrupoCategoria(conn)) {
+//        System.out.println(grupo);
+        List<Categoria> categorias = new ArrayList<>();
+        grupo.setCategorias(categorias);
+        for (Categoria categoria : getAllCategoria(conn)) {
+//          System.out.println(categoria);
+//          System.out.println(categoria.getCodGrupo());
+          if(categoria.getCodGrupo() == grupo.getCodGrupo()) {
+//            System.out.printf("%s - %s \n", grupo.getNomeGrupo(), categoria.getNomeCategoria());
+            grupo.getCategorias().add(categoria);
+          }
+        }
+        grupos.add(grupo);
+      }
+      
+      System.out.println("Grupos e categorias obtidos com sucesso!");
+      return grupos;
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      System.out.println("Erro na recuperação dos grupos e categorias.");
+    } finally {
+      DbUtils.closeQuietly(rs);
+      DbUtils.closeQuietly(stmt);
+      DbUtils.closeQuietly(conn);
+    }
+    return null;
+  }
+  
+  private List<GrupoCategoria> getAllGrupoCategoria(Connection conn) throws SQLException {
+//    PreparedStatement stmt = null;
+//    ResultSet rs = null;
+    List<GrupoCategoria> grupos = new ArrayList<>();
+
+//      conn = ConnectionManager.getInstance().getConnectionDB();
+    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM T_FT_GRUPO_CATEGORIA ORDER BY CD_GRUPO");
+    ResultSet rs = stmt.executeQuery();
+      
+      while (rs.next()) {
+
+        int codGrupo = rs.getInt("CD_GRUPO");
+        String nomeGrupo = rs.getString("NM_GRUPO");
+        
+        grupos.add(new GrupoCategoria(codGrupo, nomeGrupo));
+      }
+
+      return grupos;
+  }
+  
+  private List<Categoria> getAllCategoria(Connection conn) throws SQLException {
+//    PreparedStatement stmt = null;
+//    ResultSet rs = null;
+    List<Categoria> categorias = new ArrayList<>();
+    
+//    conn = ConnectionManager.getInstance().getConnectionDB();
+    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM T_FT_GRUPO_CATEGORIA NATURAL JOIN T_FT_CATEGORIA ORDER BY CD_CATEGORIA");
+    ResultSet rs = stmt.executeQuery();
+    
+    while (rs.next()) {
+      
+      int codCategoria = rs.getInt("CD_CATEGORIA");
+      String nomeCategoria = rs.getString("NM_CATEGORIA");
+      int codGrupo = rs.getInt("CD_GRUPO");
+      
+      categorias.add(new Categoria(codCategoria, nomeCategoria, codGrupo));
+    }
+    
+    return categorias;
+  }
+
 
 }

@@ -7,6 +7,7 @@ public class Categoria implements Serializable {
   private static final long serialVersionUID = 1L;
   private int codCategoria;
   private String nomeCategoria;
+  private int codGrupo;
 
   public Categoria() {
     super();
@@ -16,6 +17,13 @@ public class Categoria implements Serializable {
     super();
     this.codCategoria = codCategoria;
     this.nomeCategoria = nomeCategoria;
+  }
+  
+  public Categoria(int codCategoria, String nomeCategoria, int codGrupo) {
+    super();
+    this.codCategoria = codCategoria;
+    this.nomeCategoria = nomeCategoria;
+    this.codGrupo =codGrupo;
   }
 
   public int getCodCategoria() {
@@ -34,6 +42,14 @@ public class Categoria implements Serializable {
     this.nomeCategoria = nomeCategoria;
   }
 
+  public int getCodGrupo() {
+    return codGrupo;
+  }
+
+  public void setCodGrupo(int codGrupo) {
+    this.codGrupo = codGrupo;
+  }
+  
   @Override
   public String toString() {
     return String.format("{Categoria: %s, Código: %d}", nomeCategoria, codCategoria);

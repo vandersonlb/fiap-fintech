@@ -33,10 +33,10 @@ public class LoginServelt extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   private UsuarioDAO usuarioDAO;
-//  private CategoriaDAO categoriaDAO;
+  private CategoriaDAO categoriaDAO;
   private ContaDAO contaDAO;
   private InvestimentoDAO investDAO;
-//  private TipoDAO tipoDAO;
+  private TipoDAO tipoDAO;
   private TransacaoDAO transacaoDAO;
 
 //  private Usuario usuario;
@@ -58,8 +58,8 @@ public class LoginServelt extends HttpServlet {
   public void init() throws ServletException {
     super.init();
     usuarioDAO = DAOFactory.getUsuarioDAO();
-//  categoriaDAO = DAOFactory.getCategoriaoDAO();
-//  tipoDAO = DAOFactory.getTipoDAO();
+    categoriaDAO = DAOFactory.getCategoriaoDAO();
+    tipoDAO = DAOFactory.getTipoDAO();
     contaDAO = DAOFactory.getContaDAO();
     investDAO = DAOFactory.getInvestimentoDAO();
     transacaoDAO = DAOFactory.getTransacaoDAO();
@@ -67,14 +67,16 @@ public class LoginServelt extends HttpServlet {
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     HttpSession session = request.getSession();
-    ;
     session.invalidate();
     request.getRequestDispatcher("login.jsp").forward(request, response);
-    return;
+//    return;
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
   }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    
+    long tempoInicial = System.currentTimeMillis();
+
     String email = request.getParameter("email");
     String senha = request.getParameter("password");
 
@@ -85,9 +87,12 @@ public class LoginServelt extends HttpServlet {
 
       usuario = usuarioDAO.getUsuario(usuario);
       session.setAttribute("usuario", usuario);
-//      session.setAttribute("conta", new Array().ge);
-//      session.setAttribute("investimentos", []);
-//      session.setAttribute("ultimasTransacoes", []);
+      
+      List<GrupoCategoria> grupoCategorias = categoriaDAO.getAllCategoriaGrouping();
+      session.setAttribute("grupoCategorias", grupoCategorias);
+      
+      List<Tipo> tipos = tipoDAO.getAllTipo();
+      session.setAttribute("tipos", tipos);
 
       List<Conta> contas = contaDAO.getAllConta(usuario.getNumCPF());
       if (contas.size() > 0) {
@@ -95,11 +100,13 @@ public class LoginServelt extends HttpServlet {
         Conta conta = contas.get(0);
         List<Investimento> invests = investDAO.getAllInvestimentoByConta(conta.getNumConta());
         List<Transacao> ultimasTransacoes = transacaoDAO.getLastestTransacao(conta.getNumConta());
-        ;
+        
+//        List<Transacao> extrato = transacaoDAO.getAllTransacao(conta.getNumConta());
 
         session.setAttribute("conta", conta);
         session.setAttribute("investimentos", invests);
-        session.setAttribute("ultimasTransacoes", ultimasTransacoes);
+        session.setAttribute("ultimas", ultimasTransacoes);
+//        session.setAttribute("extrato", extrato);
 
       }
 
@@ -112,6 +119,10 @@ public class LoginServelt extends HttpServlet {
 
       // Map<String, String[]> params = request.getParameterMap();
 //    params.forEach((k, v) -> System.out.println((k.toString() + ":" + v[0])));
+      
+      long tempoFinal = System.currentTimeMillis();
+
+      System.out.printf("%.3f ms%n", (tempoFinal - tempoInicial) / 1000d);
 
       request.getRequestDispatcher("dashboard.jsp").forward(request, response);
     } else {

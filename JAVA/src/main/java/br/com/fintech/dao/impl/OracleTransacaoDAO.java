@@ -40,16 +40,18 @@ public class OracleTransacaoDAO implements TransacaoDAO {
 
       addTransacao(transacao, conn, stmt);
       int codTipo = transacao.getTipo().getCodTipo();
-
+      
       // Atualiza o saldo da conta
-      Conta conta = contaDAO.getConta(transacao.getConta().getNumConta());
+//      Conta conta = contaDAO.getConta(transacao.getConta().getNumConta());
+      Conta conta = transacao.getConta();
       double valor = (codTipo == 2 || codTipo == 3) ? transacao.getValor() * -1 : transacao.getValor();
       conta.setSaldo(conta.getSaldo() + valor);
       OracleContaDAO.updateSaldo(conta, conn, stmt);
 
       // Atualiza o saldo do investimento
       if (transacao.getInvestimento() != null && codTipo > 2) {
-        Investimento invest = investDAO.getInvestimento(transacao.getInvestimento().getCodInvestimento());
+//        Investimento invest = investDAO.getInvestimento(transacao.getInvestimento().getCodInvestimento());
+        Investimento invest = transacao.getInvestimento();
         double valorInvest = (codTipo == 4) ? transacao.getValor() * -1 : transacao.getValor();
         invest.setSaldo(invest.getSaldo() + valorInvest);
         OracleInvestimentoDAO.updateSaldo(invest, conn, stmt);
@@ -215,7 +217,8 @@ public class OracleTransacaoDAO implements TransacaoDAO {
     return null;
 
   }
-
+  
+  /**
   @Override
   public List<Transacao> getAllTransacao(int numConta) {
     PreparedStatement stmt = null;
@@ -307,6 +310,167 @@ public class OracleTransacaoDAO implements TransacaoDAO {
       System.out.println("Transações obtidas com sucesso!");
       return transacoes;
 
+    } catch (SQLException e) {
+      e.printStackTrace();
+      System.out.println("Erro na recuperação das transações.");
+    } finally {
+      DbUtils.closeQuietly(rs);
+      DbUtils.closeQuietly(stmt);
+      DbUtils.closeQuietly(conn);
+    }
+    return null;
+  }
+  **/
+  
+//  @Override
+  public List<Transacao> getAllTransacao(int numConta) {
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    List<Transacao> transacoes = new ArrayList<Transacao>();
+
+    try {
+
+      conn = ConnectionManager.getInstance().getConnectionDB();
+      String sql = ""
+          + "SELECT "
+          + "    C.NR_CONTA, C.NR_CPF, C.NM_CONTA, C.VL_SALDO SALDO_CONTA, "
+          + "    T.SQ_TRANSACAO, T.NM_TRANSACAO, T.VL_TRANSACAO, T.DT_TRANSACAO, T.OB_TRANSACAO, "
+          + "    I.CD_INVESTIMENTO, I.NM_INVESTIMENTO, I.VL_SALDO SALDO_INVESTIMENTO, I.VL_META, "
+          + "    TP.CD_TIPO, TP.NM_TIPO, "
+          + "    CT.CD_CATEGORIA, CT.NM_CATEGORIA "
+          + "    FROM "
+          + "        T_FT_TRANSACAO T INNER JOIN T_FT_CONTA C "
+          + "        ON T.NR_CONTA = C.NR_CONTA AND T.NR_CONTA = ? "
+          + "        LEFT JOIN T_FT_INVESTIMENTO I "
+          + "        ON T.CD_INVESTIMENTO = I.CD_INVESTIMENTO "
+          + "        INNER JOIN T_FT_TIPO TP "
+          + "        ON T.CD_TIPO = TP.CD_TIPO "
+          + "        INNER JOIN T_FT_CATEGORIA CT "
+          + "        ON T.CD_CATEGORIA = CT.CD_CATEGORIA "
+          + "        ORDER BY T.DT_TRANSACAO DESC";
+      stmt = conn.prepareStatement(sql);
+      stmt.setInt(1, numConta);
+      rs = stmt.executeQuery();
+
+      while (rs.next()) {
+        
+        int numeroConta = rs.getInt("NR_CONTA");
+        long numCPF = rs.getLong("NR_CPF");
+        String nomeConta = rs.getString("NM_CONTA");
+        double saldoConta = rs.getDouble("SALDO_CONTA");
+        
+        int seqTrans = rs.getInt("SQ_TRANSACAO");
+        String nomeTrans = rs.getString("NM_TRANSACAO");
+        double valor = rs.getDouble("VL_TRANSACAO");
+        java.sql.Date data = rs.getDate("DT_TRANSACAO");
+        Calendar dataTrans = Calendar.getInstance();
+        dataTrans.setTimeInMillis(data.getTime());
+        String obs = rs.getString("OB_TRANSACAO");
+        
+        int codInvest = rs.getInt("CD_INVESTIMENTO");
+        String nomeInvest = rs.getString("NM_INVESTIMENTO");
+        double saldoInvest = rs.getDouble("SALDO_INVESTIMENTO");
+        double metaInvest = rs.getDouble("VL_META");
+        
+        int codTipo = rs.getInt("CD_TIPO");
+        String nomeTipo = rs.getString("NM_TIPO");
+
+        int codCategoria = rs.getInt("CD_CATEGORIA");
+        String nomeCategoria = rs.getString("NM_CATEGORIA");
+        
+        Conta conta = new Conta(numeroConta, numCPF, nomeConta, saldoConta);
+        Investimento invest = new Investimento(numeroConta, codInvest, nomeInvest, saldoInvest, metaInvest);
+        Tipo tipo = new Tipo(codTipo, nomeTipo);
+        Categoria categoria = new Categoria(codCategoria, nomeCategoria);
+
+        transacoes.add(new Transacao(conta, seqTrans, nomeTrans, invest, tipo, valor, dataTrans, categoria, obs));
+
+      }
+
+      System.out.println("Transações obtidas com sucesso!");
+      return transacoes;
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      System.out.println("Erro na recuperação das transações.");
+    } finally {
+      DbUtils.closeQuietly(rs);
+      DbUtils.closeQuietly(stmt);
+      DbUtils.closeQuietly(conn);
+    }
+    return null;
+  }
+  
+  public List<Transacao> getLastestTransacao(int numConta) {
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    List<Transacao> transacoes = new ArrayList<Transacao>();
+    
+    try {
+      
+      conn = ConnectionManager.getInstance().getConnectionDB();
+      String sql = ""
+          + "SELECT * FROM ( "
+          + "        SELECT "
+          + "            C.NR_CONTA, C.NR_CPF, C.NM_CONTA, C.VL_SALDO SALDO_CONTA, "
+          + "            T.SQ_TRANSACAO, T.NM_TRANSACAO, T.VL_TRANSACAO, T.DT_TRANSACAO, T.OB_TRANSACAO, "
+          + "            I.CD_INVESTIMENTO, I.NM_INVESTIMENTO, I.VL_SALDO SALDO_INVESTIMENTO, I.VL_META, "
+          + "            TP.CD_TIPO, TP.NM_TIPO, "
+          + "            CT.CD_CATEGORIA, CT.NM_CATEGORIA "
+          + "            FROM "
+          + "                T_FT_TRANSACAO T INNER JOIN T_FT_CONTA C "
+          + "                ON T.NR_CONTA = C.NR_CONTA AND T.NR_CONTA = ? "
+          + "                LEFT JOIN T_FT_INVESTIMENTO I "
+          + "                ON T.CD_INVESTIMENTO = I.CD_INVESTIMENTO "
+          + "                INNER JOIN T_FT_TIPO TP "
+          + "                ON T.CD_TIPO = TP.CD_TIPO "
+          + "                INNER JOIN T_FT_CATEGORIA CT "
+          + "                ON T.CD_CATEGORIA = CT.CD_CATEGORIA "
+          + "                ORDER BY T.DT_TRANSACAO DESC "
+          + "                ) "
+          + "WHERE ROWNUM < 6";
+      stmt = conn.prepareStatement(sql);
+      stmt.setInt(1, numConta);
+      rs = stmt.executeQuery();
+      
+      while (rs.next()) {
+        
+        int numeroConta = rs.getInt("NR_CONTA");
+        long numCPF = rs.getLong("NR_CPF");
+        String nomeConta = rs.getString("NM_CONTA");
+        double saldoConta = rs.getDouble("SALDO_CONTA");
+        
+        int seqTrans = rs.getInt("SQ_TRANSACAO");
+        String nomeTrans = rs.getString("NM_TRANSACAO");
+        double valor = rs.getDouble("VL_TRANSACAO");
+        java.sql.Date data = rs.getDate("DT_TRANSACAO");
+        Calendar dataTrans = Calendar.getInstance();
+        dataTrans.setTimeInMillis(data.getTime());
+        String obs = rs.getString("OB_TRANSACAO");
+        
+        int codInvest = rs.getInt("CD_INVESTIMENTO");
+        String nomeInvest = rs.getString("NM_INVESTIMENTO");
+        double saldoInvest = rs.getDouble("SALDO_INVESTIMENTO");
+        double metaInvest = rs.getDouble("VL_META");
+        
+        int codTipo = rs.getInt("CD_TIPO");
+        String nomeTipo = rs.getString("NM_TIPO");
+        
+        int codCategoria = rs.getInt("CD_CATEGORIA");
+        String nomeCategoria = rs.getString("NM_CATEGORIA");
+        
+        Conta conta = new Conta(numeroConta, numCPF, nomeConta, saldoConta);
+        Investimento invest = new Investimento(numeroConta, codInvest, nomeInvest, saldoInvest, metaInvest);
+        Tipo tipo = new Tipo(codTipo, nomeTipo);
+        Categoria categoria = new Categoria(codCategoria, nomeCategoria);
+        
+        transacoes.add(new Transacao(conta, seqTrans, nomeTrans, invest, tipo, valor, dataTrans, categoria, obs));
+        
+      }
+      
+      System.out.println("Transações obtidas com sucesso!");
+      return transacoes;
+      
     } catch (SQLException e) {
       e.printStackTrace();
       System.out.println("Erro na recuperação das transações.");

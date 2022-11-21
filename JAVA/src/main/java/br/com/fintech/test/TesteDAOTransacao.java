@@ -23,7 +23,8 @@ public class TesteDAOTransacao {
     TipoDAO tipoDAO = DAOFactory.getTipoDAO();
     CategoriaDAO categoriaDAO = DAOFactory.getCategoriaoDAO();
     TransacaoDAO transacaoDAO = DAOFactory.getTransacaoDAO();
-
+    
+    /**
     /////// CRIANDO TRANSAÇÔES
     Conta conta_1 = contaDAO.getConta(123460);
     Investimento invest_1 = investDAO.getInvestimento(13);
@@ -77,17 +78,18 @@ public class TesteDAOTransacao {
 
     // DELETANDO UMA TRANSAÇÃO (e atualizando valores)
     transacaoDAO.deleteTransacao(64);
+    **/
 
     // ATALHO PARA CRIAR TRANSACOES PARA TESTE
     Calendar calendario = Calendar.getInstance();
     Conta conta_2 = contaDAO.getConta(123460);
-    Investimento invest_2 = investDAO.getInvestimento(13);
-    Tipo tipo = tipoDAO.getTipo(1);
+    Investimento invest_2 = investDAO.getInvestimento(54);
+    Tipo tipo = tipoDAO.getTipo(4);
     Categoria categ = categoriaDAO.getCategoria(36);
 
-    calendario.set(2022, Calendar.NOVEMBER, 21);
-    Calendar dataNasc = calendario;
-    Transacao transTeste = new Transacao(conta_2, 0, "ENTRADA", null, tipo, 1500, dataNasc, categ, "");
+    calendario.set(2022, Calendar.NOVEMBER, 23);
+    Calendar data = calendario;
+    Transacao transTeste = new Transacao(conta_2, 0, "Teste 9 resgate", invest_2, tipo, 300, data, categ, "");
     transacaoDAO.createTransacao(transTeste);
 
   }

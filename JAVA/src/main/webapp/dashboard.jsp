@@ -15,15 +15,16 @@
 
   <main class="container-fluid mb-4">
       
-     <!-- 
      <ul>
        <li><b>Usuário</b>: <c:out value="${usuario}"></c:out></li>
        <li><b>Conta</b>: <c:out value="${conta}"></c:out></li>
        <li><b>Investimento</b>: <c:out value="${investimentos}"></c:out></li>
-       <li><b>Ultimas</b>: <c:out value="${ultimasTransacoes}"></c:out></li>
-       <li><b>Ultimas</b>: <c:out value="${Boolean.parseBoolean(ultimasTransacoes)}"></c:out></li>
+       <li><b>Ultimas</b>: <c:out value="${ultimas}"></c:out></li>
+       <li><b>Tipos</b>: <c:out value="${tipos}"></c:out></li>
+       <li><b>Categorias</b>: <c:out value="${grupoCategorias.size()}"></c:out></li>
+       <li><b>VAZIO</b>: <c:out value="${conta != null && ultimas == null || ultimas.size() == 0}"></c:out></li>
+       <li><b>CHEIO</b>: <c:out value="${conta != null && ultimas != null && ultimas.size() > 0}"></c:out></li>
      </ul>
-      -->
 
     <div class="container-lg">
       <div class="row my-2 pt-4 px-3">
@@ -60,7 +61,7 @@
         });
       </script>
        -->
-      <div class="row">
+      <div class="flex-column-reverse flex-lg-row row">
 
         <div class="col-12 col-lg-6 px-3">
           <h2 class="h4 p-3">Investimentos</h2>
@@ -96,19 +97,19 @@
                   <c:set var="percent" value="${Math.round(invest.saldo/invest.meta * 100)}"></c:set>
                   <c:choose>
                     <c:when test="${percent <= 15}">
-                      <c:set var="color" value="bg-danger"></c:set>
+                      <c:set var="investColor" value="bg-danger"></c:set>
                     </c:when>    
                     <c:when test="${percent < 50}">
-                      <c:set var="color" value="bg-warning"></c:set>
+                      <c:set var="investColor" value="bg-warning"></c:set>
                     </c:when>    
                     <c:when test="${percent < 85}">
-                      <c:set var="color" value="bg-info"></c:set>
+                      <c:set var="investColor" value="bg-info"></c:set>
                     </c:when>    
                     <c:otherwise>
-                      <c:set var="color" value="bg-success"></c:set>
+                      <c:set var="investColor" value="bg-success"></c:set>
                     </c:otherwise>
                   </c:choose>
-                  <div class="progress-bar ${color}" role="progressbar" style="width: ${percent}%" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="${invest.meta}"></div>
+                  <div class="progress-bar ${investColor}" role="progressbar" style="width: ${percent}%" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="${invest.meta}"></div>
                 </div>
                 <div class="position-absolute top-0 end-0">
                   <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#deleteInvestimentoModal"
@@ -122,9 +123,16 @@
             <!-- FIM -->
 
             <div class="mt-3 d-grid gap-2 d-md-block d-lg-grid d-xl-block justify-content-center">
+              <c:if test="${conta != null}">
               <button class="btn btn-lg btn-primary px-5" type="button" data-bs-toggle="modal" data-bs-target="#addInvestimentoModal">
                 Adicionar investimento
               </button>
+              </c:if>
+              <c:if test="${conta == null}">
+              <button class="btn btn-lg btn-primary px-5" type="button" data-bs-toggle="modal" data-bs-target="#addInvestimentoModal" disabled>
+                Adicionar investimento
+              </button>
+              </c:if>
             </div>
           </div>
         </div>
@@ -153,7 +161,7 @@
             <!-- FIM -->
 
             <!-- Exibir quando tiver conta criada mas sem transações -->
-            <c:if test="${conta != null && ultimasTransacoes == null}">
+            <c:if test="${conta != null && ultimas == null || ultimas.size() == 0}">
             <div class="row p-5 pb-3 align-items-md-center">
               <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                 <img src="./_assets/img_transacao.svg" class="rounded mx-auto d-block" width="232" height="152">
@@ -171,67 +179,32 @@
             <!-- FIM -->
 
             <!-- Exibir quando tiver conta criada com lançamentos -->
-            <c:if test="${conta != null && ultimasTransacoes != null}">
+            <c:if test="${conta != null && ultimas != null && ultimas.size() > 0}">
+            <c:forEach var="transacao" items="${ultimas}">
             <div class="row my-3 flex-wrap flex-sm-nowrap">
               <div class="col d-flex">
                 <i class="bi bi-basket fs-3 border border-primary rounded-circle text-primary icone"></i>
                 <div class="d-flex flex-column ps-2">
-                  <span class="fs-6 text-truncate">Mercado</span>
-                  <span class="fs-5 text-truncate">Mercado Market</span>
+                  <span class="fs-6 text-truncate">${transacao.categoria.nomeCategoria}</span>
+                  <span class="fs-5 text-truncate">${transacao.nome}</span>
                 </div>
               </div>
               <div class="col-12 col-sm-5 d-flex align-items-center justify-content-end pt-3 pt-sm-0">
-                <span class="h5">- R$ 200,00</span>
+                <c:if test="${transacao.tipo.codTipo == 1 || transacao.tipo.codTipo == 4}">
+					<c:set var="valorColor" value="text-success"> </c:set>
+					<c:set var="signal" value=""> </c:set>
+                </c:if>
+                <c:if test="${transacao.tipo.codTipo == 2 || transacao.tipo.codTipo == 3}">
+					<c:set var="valorColor" value="text-body"> </c:set>
+					<c:set var="signal" value="-"> </c:set>
+                </c:if>
+                <span class="h5 ${valorColor}">
+                  ${signal} <fmt:formatNumber value="${transacao.valor}" type = "currency"/>
+                </span>
+                
               </div>
             </div>
-            <div class="row my-3 flex-wrap flex-sm-nowrap">
-              <div class="col d-flex">
-                <i class="bi bi-bag fs-3 border border-secondary rounded-circle text-secondary icone"></i>
-                <div class="d-flex flex-column ps-2">
-                  <span class="fs-6 text-truncate">Compras</span>
-                  <span class="fs-5 text-truncate">Shopping Center</span>
-                </div>
-              </div>
-              <div class="col-12 col-sm-5 d-flex align-items-center justify-content-end pt-3 pt-sm-0">
-                <span class="h5">- R$ 500,00</span>
-              </div>
-            </div>
-            <div class="row my-3 flex-wrap flex-sm-nowrap">
-              <div class="col d-flex">
-                <i class="bi bi-currency-dollar fs-3 border border-success rounded-circle text-success icone"></i>
-                <div class="d-flex flex-column ps-2">
-                  <span class="fs-6 text-truncate">Remuneração</span>
-                  <span class="fs-5 text-truncate">Trabalho principal</span>
-                </div>
-              </div>
-              <div class="col-12 col-sm-5 d-flex align-items-center justify-content-end pt-3 pt-sm-0">
-                <span class="h5 text-success">R$ 5.000,00</span>
-              </div>
-            </div>
-            <div class="row my-3 flex-wrap flex-sm-nowrap">
-              <div class="col d-flex">
-                <i class="bi bi-house-door fs-3 border border-info rounded-circle text-info icone"></i>
-                <div class="d-flex flex-column ps-2">
-                  <span class="fs-6 text-truncate">Moradia</span>
-                  <span class="fs-5 text-truncate">Aluguel janeiro</span>
-                </div>
-              </div>
-              <div class="col-12 col-sm-5 d-flex align-items-center justify-content-end pt-3 pt-sm-0">
-                <span class="h5 text-success">R$ 2.000,00</span>
-              </div>
-            </div>
-            <div class="row my-3 flex-wrap flex-sm-nowrap">
-              <div class="col d-flex">
-                <i class="bi bi-dpad fs-3 border border-danger rounded-circle text-danger icone"></i>
-                <div class="d-flex flex-column ps-2">
-                  <span class="fs-6 text-truncate">Jogos</span>
-                  <span class="fs-5 text-truncate">Super Mario Bros.</span>
-                </div>
-              </div>
-              <div class="col-12 col-sm-5 d-flex align-items-center justify-content-end pt-3 pt-sm-0">
-                <span class="h5">R$ 35,00</span>
-              </div>
-            </div>
+            </c:forEach>
             </c:if>
             <!-- FIM -->
 
@@ -268,7 +241,6 @@
             </c:if>
             <!-- FIM -->
             
-            
           </div>
         </div>
       </div>
@@ -288,67 +260,7 @@
     <!-- FIM -->
   </main>
 
-  <!-- Offcanvas de adicionar transação -->
-  <div class="offcanvas offcanvas-end pe-4" tabindex="-1" id="transacao" aria-labelledby="transacaoLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="transacaoLabel">Adicionar transação</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <form class="row g-4 needs-validation">
-        <div class="col-12">
-          <label for="nome" class="form-label">Nome transação</label>
-          <input type="text" class="form-control" id="nome" placeholder="Nome transação" required>
-        </div>
-        <div class="col-12">
-          <label for="valor" class="form-label">Valor</label>
-          <input type="number" class="form-control" id="valor" placeholder="Valor" required>
-        </div>
-        <div class="col-12">
-          <label for="investimento" class="form-label">Investimento</label>
-          <select class="form-select" id="investimento" aria-label="investimento">
-            <option value="0" selected>Investimento</option>
-            <option value="1">Janeiro</option>
-            <option value="2">Fevereiro</option>
-            <option value="3">Março</option>
-          </select>
-        </div>
-        <div class="col-12">
-          <label for="tipo" class="form-label">Isso é uma:</label>
-          <select class="form-select" id="tipo" aria-label="tipo">
-            <option value="0" selected>Isso é uma:</option>
-            <option value="1">Janeiro</option>
-            <option value="2">Fevereiro</option>
-            <option value="3">Março</option>
-          </select>
-        </div>
-        <div class="col-12">
-          <label for="data" class="form-label">Data</label>
-          <input type="date" class="form-control" id="data" required>
-        </div>
-        <div class="col-12">
-          <label for="categoria" class="form-label">Investimento</label>
-          <select class="form-select" id="categoria" aria-label="categoria">
-            <option value="0" selected>Categoria</option>
-            <option value="1">Janeiro</option>
-            <option value="2">Fevereiro</option>
-            <option value="3">Março</option>
-          </select>
-        </div>
-        <div class="col-12 pb-5 mb-5">
-          <div class="form-floating">
-            <textarea class="form-control" id="observacao" placeholder="Leave a comment here" ></textarea>
-            <label for="observacao">Observação</label>
-          </div>
-        </div>
-
-        <div class="d-grid pb-3 col-12 position-absolute bottom-0">
-          <button class="btn btn-primary btn-lg" type="submit">Salvar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-  <!-- FIM -->
+ 
 
   <footer class="background fixed-bottom container-fluid p-0 d-none d-lg-block">
     <div class="background__img">
@@ -357,6 +269,80 @@
     </div>
   </footer>
   
+    <!-- Offcanvas ADICIONAR TRANSAÇÃO -->
+    <div class="offcanvas offcanvas-end pe-4" tabindex="-1" id="transacao" aria-labelledby="transacaoLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="transacaoLabel">Adicionar transação</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <form class="row g-4 needs-validation" action="transacao" method="POST" novalidate>
+          
+          <input type="hidden" name="action" value="create" >
+          <input type="hidden" name="conta" value="${conta.numConta}" >
+
+          <div class="col-12">
+            <label for="nome" class="form-label">Nome transação</label>
+            <input type="text" class="form-control" id="nome" name="nome" maxlength="20" placeholder="Nome transação" required>
+          </div>
+          <div class="col-12">
+            <label for="valor" class="form-label">Valor</label>
+            <input type="number" class="form-control" id="valor" name="valor" maxlength="10" placeholder="Valor" required>
+          </div>
+          <c:if test="${investimentos != null && investimentos.size() > 0}">
+          <div class="col-12">
+            <label for="investimento" class="form-label">Investimento</label>
+            <select class="form-select" id="investimento" name="investimento" aria-label="investimento">
+              <option value="0" selected>-- Nenhum investimento --</option>
+              <c:forEach var="invest" items="${investimentos}">
+                <option value="${invest.codInvestimento}"> ${invest.nomeInvestimento} </option>
+              </c:forEach>
+            </select>
+          </div>  
+          </c:if>
+          <!--  MELHORAR ESSA PARTE, SÓ APARECER OS TIPOS 3 E 4 SEEE INVESTIMENTO FOR SELECIONADO -->
+          <div class="col-12">
+            <label for="tipo" class="form-label">Isso é uma:</label>
+            <select class="form-select" id="tipo" name="tipo" aria-label="tipo">
+              <option value="${tipos[0].codTipo}" >${tipos[0].nomeTipo.toLowerCase()}</option>
+              <option value="${tipos[1].codTipo}" >${tipos[1].nomeTipo.toLowerCase()}</option>
+              <c:if test="${investimentos != null && investimentos.size() > 0}">
+              <option value="${tipos[2].codTipo}" >${tipos[2].nomeTipo.toLowerCase()}</option>
+              <option value="${tipos[3].codTipo}" >${tipos[3].nomeTipo.toLowerCase()}</option>
+              </c:if>
+            </select>
+          </div>
+          <div class="col-12">
+            <label for="data" class="form-label">Data</label>
+            <input type="date" class="form-control" id="data" name="data" required>
+          </div>
+          <div class="col-12">
+            <label for="categoria" class="form-label">Categoria</label>
+            <select class="form-select" id="categoria" name="categoria" aria-label="categoria">
+              <c:forEach var="grupoCategoria" items="${grupoCategorias}">
+                <span>grupoCategoria.nomeGrupo</span>
+                <option disabled> ${grupoCategoria.nomeGrupo} </option>
+                <c:forEach var="categoria" items="${grupoCategoria.categorias}">
+                  <option value="${categoria.codCategoria}">${categoria.nomeCategoria}</option>
+                </c:forEach>
+              </c:forEach>
+            </select>
+          </div>
+          <div class="col-12 pb-5 mb-5">
+            <div class="form-floating">
+              <textarea class="form-control" id="observacao" name="observacao" maxlength="60" ></textarea>
+              <label for="observacao">Observação</label>
+            </div>
+          </div>
+  
+          <div class="d-grid pb-3 col-12 position-absolute bottom-0">
+            <button class="btn btn-primary btn-lg" type="submit">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- FIM -->
+ 
   
     <!-- Modal ADICIONAR CONTA -->
     <div class="modal fade" id="addContaModal" tabindex="-1" aria-labelledby="addContaModalLabel" aria-hidden="true">
