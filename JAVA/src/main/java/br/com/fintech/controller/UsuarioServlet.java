@@ -1,11 +1,9 @@
 package br.com.fintech.controller;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
-import java.util.Map;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import br.com.fintech.bean.GrupoCategoria;
+import br.com.fintech.bean.Tipo;
 import br.com.fintech.bean.Usuario;
+import br.com.fintech.dao.CategoriaDAO;
+import br.com.fintech.dao.TipoDAO;
 import br.com.fintech.dao.UsuarioDAO;
 import br.com.fintech.factory.DAOFactory;
 
@@ -23,31 +25,28 @@ public class UsuarioServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   private UsuarioDAO usuarioDAO;
+  private TipoDAO tipoDAO;
+  private CategoriaDAO categoriaDAO;
   private Usuario usuario;
 
-  /**
-  public UsuarioServlet() {
-    super();
-    usuarioDAO = DAOFactory.getUsuarioDAO();
-  }
-  **/
-  
   @Override
   public void init() throws ServletException {
     super.init();
     usuarioDAO = DAOFactory.getUsuarioDAO();
+    tipoDAO = DAOFactory.getTipoDAO();
+    categoriaDAO = DAOFactory.getCategoriaoDAO();
   }
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     try {
-      
+
       HttpSession session = request.getSession();
-      
+
       String nome = request.getParameter("nome");
       String celular = request.getParameter("tel");
-      
+
       Calendar dataNasc = Calendar.getInstance();
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
       dataNasc.setTime(sdf.parse(request.getParameter("date")));
@@ -56,18 +55,13 @@ public class UsuarioServlet extends HttpServlet {
       usuario = usuarioDAO.getUsuario(usuarioTemp);
       usuario.setNome(nome);
       usuario.setCelular(celular);
-      usuario.setDataNasc(dataNasc); // PORQUÊ NÃO FUNCIONA???
-      
+      usuario.setDataNasc(dataNasc);
+
       usuarioDAO.updateUsuario(usuario);
 
-//      Map<String, String[]> params = request.getParameterMap();
-//      params.forEach((k, v) -> System.out.println((k.toString() + ":" + v[0])));
-      
-//      request.setAttribute("error", "Entre novamente, fique à vontade.");
-//      session.setAttribute("usuario", usuario);
       session.setAttribute("usuario", usuario);
       request.getRequestDispatcher("dashboard.jsp").forward(request, response);
-    
+
     } catch (Exception e) {
       e.printStackTrace();
       request.setAttribute("error", "Algo errado não tá certo!");
@@ -79,13 +73,16 @@ public class UsuarioServlet extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     try {
-      
+
+//      Map<String, String[]> params = request.getParameterMap();
+//      params.forEach((k, v) -> System.out.println((k.toString() + ":" + v[0])));
+
       HttpSession session = request.getSession();
-      
+
       String nome = request.getParameter("nome");
       String email = request.getParameter("email");
       String celular = request.getParameter("tel");
-      
+
       Calendar dataNasc = Calendar.getInstance();
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
       dataNasc.setTime(sdf.parse(request.getParameter("date")));
@@ -95,16 +92,17 @@ public class UsuarioServlet extends HttpServlet {
 
       usuario = new Usuario(Long.parseLong(cpf), nome, dataNasc, email, celular, senha);
 
-      System.out.println(usuario);
-
       usuarioDAO.createUsuario(usuario);
 
       session.setAttribute("usuario", usuario);
 
-      request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+      List<GrupoCategoria> grupoCategorias = categoriaDAO.getAllCategoriaGrouping();
+      session.setAttribute("grupoCategorias", grupoCategorias);
 
-//    Map<String, String[]> params = request.getParameterMap();
-//    params.forEach((k, v) -> System.out.println((k.toString() + ":" + v[0])));
+      List<Tipo> tipos = tipoDAO.getAllTipo();
+      session.setAttribute("tipos", tipos);
+
+      request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 
     } catch (Exception e) {
       e.printStackTrace();

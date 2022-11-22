@@ -1,17 +1,7 @@
-<head>
-  <%@ include file="./_jsp/bootstrap-links.jsp" %>
-  <%@ include file="./_jsp/header.jsp" %>
-  <%@ include file="./_jsp/tag-libs.jsp" %>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-    crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="./_style/dashboard.css">
-</head>
-
 <body>
     <nav class="navbar navbar-expand-lg shadow-sm">
       <div class="container px-3">
-        <a class="navbar-brand" href="./dashboard.jsp">
+        <a class="navbar-brand" href="dashboard">
           <img src="./_assets/ft_logo_hor.svg" alt="" width="150">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,16 +35,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-          
-            <c:if test="${not empty error}">
-              <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
-                ${error}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-            </c:if>
             
             <form id="updateForm" class="row g-3 needs-validation" action="user" method="GET" novalidate>
-              <!--  <input type="hidden" name="action" value="update" >  -->
               <input type="hidden" name="email" value="${usuario.email}">
               
               <div class="col-12">

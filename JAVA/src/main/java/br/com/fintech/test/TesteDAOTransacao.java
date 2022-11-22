@@ -24,7 +24,6 @@ public class TesteDAOTransacao {
     CategoriaDAO categoriaDAO = DAOFactory.getCategoriaoDAO();
     TransacaoDAO transacaoDAO = DAOFactory.getTransacaoDAO();
     
-    /**
     /////// CRIANDO TRANSAÇÔES
     Conta conta_1 = contaDAO.getConta(123460);
     Investimento invest_1 = investDAO.getInvestimento(13);
@@ -78,7 +77,6 @@ public class TesteDAOTransacao {
 
     // DELETANDO UMA TRANSAÇÃO (e atualizando valores)
     transacaoDAO.deleteTransacao(64);
-    **/
 
     // ATALHO PARA CRIAR TRANSACOES PARA TESTE
     Calendar calendario = Calendar.getInstance();

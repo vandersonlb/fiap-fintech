@@ -2,7 +2,6 @@ package br.com.fintech.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,29 +18,22 @@ import br.com.fintech.factory.DAOFactory;
 public class InvestimentoServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-//  private ContaDAO contaDAO;
   private InvestimentoDAO investDAO;
-
-  /**
-   * public InvestimentoServlet() { super(); // contaDAO =
-   * DAOFactory.getContaDAO(); investDAO = DAOFactory.getInvestimentoDAO(); }
-   **/
 
   @Override
   public void init() throws ServletException {
     super.init();
-//  contaDAO = DAOFactory.getContaDAO();
     investDAO = DAOFactory.getInvestimentoDAO();
   }
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     try {
-      
-      HttpSession session = request.getSession();
-      
+
 //    Map<String, String[]> params = request.getParameterMap();
 //    params.forEach((k, v) -> System.out.println((k.toString() + ":" + v[0])));
+
+      HttpSession session = request.getSession();
 
       int codigo = Integer.parseInt(request.getParameter("codigo"));
       int numConta = Integer.parseInt(request.getParameter("numConta"));
@@ -63,11 +55,11 @@ public class InvestimentoServlet extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     try {
-      
-      HttpSession session = request.getSession();
 
 //      Map<String, String[]> params = request.getParameterMap();
 //      params.forEach((k, v) -> System.out.println((k.toString() + ":" + v[0])));
+
+      HttpSession session = request.getSession();
 
       int numConta = Integer.parseInt(request.getParameter("numConta"));
       String nomeInvest = request.getParameter("nome");

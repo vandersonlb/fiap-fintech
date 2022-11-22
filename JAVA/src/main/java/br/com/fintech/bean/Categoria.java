@@ -18,12 +18,12 @@ public class Categoria implements Serializable {
     this.codCategoria = codCategoria;
     this.nomeCategoria = nomeCategoria;
   }
-  
+
   public Categoria(int codCategoria, String nomeCategoria, int codGrupo) {
     super();
     this.codCategoria = codCategoria;
     this.nomeCategoria = nomeCategoria;
-    this.codGrupo =codGrupo;
+    this.codGrupo = codGrupo;
   }
 
   public int getCodCategoria() {
@@ -49,7 +49,7 @@ public class Categoria implements Serializable {
   public void setCodGrupo(int codGrupo) {
     this.codGrupo = codGrupo;
   }
-  
+
   @Override
   public String toString() {
     return String.format("{Categoria: %s, Código: %d}", nomeCategoria, codCategoria);

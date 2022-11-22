@@ -34,7 +34,6 @@
         </c:if>
         
         <form class="row g-3 needs-validation" action="user" method="post" novalidate>
-          <!--  <input type="hidden" name="action" value="create">  -->
           <div class="col-12">
             <label for="nome" class="form-label">Nome</label>
             <input type="text" class="form-control" id="nome" name="nome" maxlength="30" placeholder="Digite seu nome completo" required>
@@ -77,6 +76,7 @@
               <span class="input-group-text" type="button">
                 <i id="eye" class="bi bi-eye-slash"></i>
               </span>
+             </div>
             <div class="invalid-feedback">
                 Olha o hacker aí, digite pelo menos 6 caracteres. 
               </div>

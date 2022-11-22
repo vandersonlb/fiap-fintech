@@ -5,6 +5,7 @@
   <%@ include file="./_jsp/bootstrap-links.jsp" %>
   <%@ include file="./_jsp/header.jsp" %>
   <%@ include file="./_jsp/tag-libs.jsp" %>
+  <link rel="stylesheet" href="./_style/dashboard.css">
 </head>
 
 <body>
@@ -14,17 +15,10 @@
   </header>
 
   <main class="container-fluid mb-4">
-      
-     <ul>
-       <li><b>Usuário</b>: <c:out value="${usuario}"></c:out></li>
-       <li><b>Conta</b>: <c:out value="${conta}"></c:out></li>
-       <li><b>Investimento</b>: <c:out value="${investimentos}"></c:out></li>
-       <li><b>Ultimas</b>: <c:out value="${ultimas}"></c:out></li>
-       <li><b>Tipos</b>: <c:out value="${tipos}"></c:out></li>
-       <li><b>Categorias</b>: <c:out value="${grupoCategorias.size()}"></c:out></li>
-       <li><b>VAZIO</b>: <c:out value="${conta != null && ultimas == null || ultimas.size() == 0}"></c:out></li>
-       <li><b>CHEIO</b>: <c:out value="${conta != null && ultimas != null && ultimas.size() > 0}"></c:out></li>
-     </ul>
+  
+    <!-- 
+    <%@ include file="./_jsp/debug.jsp" %>
+     -->   
 
     <div class="container-lg">
       <div class="row my-2 pt-4 px-3">
@@ -32,35 +26,7 @@
           <h1 class="h2">Controle Financeiro</h1>
         </div>
     </div>
-        <!-- 
-        <div class="align-items-baseline align-self-center col d-flex justify-content-end">
-          <p class="d-inline me-3 fs-5 d-none d-md-inline w-100 w-md-50 text-end">Escolha o mês:</p>
-          <select id="meses" class="form-select text-center border border-primary text-primary fs-5 fw-semibold w-100 w-md-50" aria-label="Meses" style="max-width: 300px;">
-            <option value="" disabled selected>HSAHSAHSA</option>
-            <option value="dashboard.jsp?conta=${numConta}&mes=11&ano=2022"> Novembro </option>
-            <option value="dashboard.jsp?conta=${numConta}&mes=12&ano=2022"> Dezembro </option>
-            <option value="dashboard.jsp?conta=${numConta}&mes=1&ano=2023"> Janeiro 2023</option>
-            <option value="2-2023">Fevereiro 2023</option>
-            <option value="3-2023">Março 2023</option>
-            <option value="4-2023">Abril 2023</option>
-            <option value="5-2023">Maio 2023</option>
-            <option value="6-2023">Junho 2023</option>
-            <option value="7-2023">Julho 2023</option>
-            <option value="8-2023">Agosto 2023</option>
-            <option value="9-2023">Setembro 2023</option>
-            <option value="10-2023">Outubro 2023</option>
-          </select>
-        </div>
-      </div>
-      
-      <script>
-        const meses = document.querySelector("#meses");
-        meses.addEventListener('change', function () {
-       	  console.log(666)
-          location.href = this.value;
-        });
-      </script>
-       -->
+
       <div class="flex-column-reverse flex-lg-row row">
 
         <div class="col-12 col-lg-6 px-3">
@@ -137,7 +103,6 @@
           </div>
         </div>
 
-
         <div class="col-12 col-lg-6 px-3 mb-5 pt-4 pt-lg-0">
           <h2 class="h4 p-3">Extrato <span class="fs-5 fw-normal">&nbsp; (últimos lançamentos)</span> </h2>
           <div class="card shadow p-4">
@@ -201,7 +166,6 @@
                 <span class="h5 ${valorColor}">
                   ${signal} <fmt:formatNumber value="${transacao.valor}" type = "currency"/>
                 </span>
-                
               </div>
             </div>
             </c:forEach>
@@ -212,9 +176,7 @@
             <c:if test="${conta == null}">
             <div class="mt-3 d-grid gap-2 d-md-block d-lg-grid d-xl-block justify-content-center">
               <button class="btn btn-lg btn-primary px-5" type="button" data-bs-toggle="modal" data-bs-target="#addContaModal">
-                <!--  <a href="#" class="text-decoration-none text-white">  -->
-                  &nbsp; &nbsp; Adicionar conta &nbsp; &nbsp;
-                <!--  </a>  -->
+                &nbsp; &nbsp; Adicionar conta &nbsp; &nbsp;
               </button>
             </div>
             </c:if>
@@ -225,15 +187,11 @@
             <div class="row">
               <div class="col">
                 <div class="d-flex flex-column flex-sm-row gap-2 mt-3">
-                  <button class="btn btn-lg btn-outline-primary flex-fill">
-                    <a href="#" class="text-decoration-none text-primary">
-                      Ver extrato
-                    </a>
-                  </button>
+                  <a class="btn btn-lg btn-outline-primary flex-fill" href="transacao?action=extrato" role="button">
+                    Ver extrato
+                  </a>
                   <button class="btn btn-lg btn-primary flex-fill" type="button" data-bs-toggle="offcanvas" data-bs-target="#transacao" aria-controls="transacao"> 
-                    <!-- <a href="#" class="text-decoration-none text-white"> -->
-                      Adicionar transação
-                    <!-- </a> -->
+                    Adicionar transação
                   </button>
                 </div>
               </div>
@@ -330,7 +288,7 @@
           </div>
           <div class="col-12 pb-5 mb-5">
             <div class="form-floating">
-              <textarea class="form-control" id="observacao" name="observacao" maxlength="60" ></textarea>
+              <textarea class="form-control" id="observacao" name="observacao" maxlength="60"></textarea>
               <label for="observacao">Observação</label>
             </div>
           </div>
@@ -341,7 +299,6 @@
         </form>
       </div>
     </div>
-    <!-- FIM -->
  
   
     <!-- Modal ADICIONAR CONTA -->
@@ -474,7 +431,6 @@
         </div>
       </div>
     </div>    
-
   
     <script src="./_script/form-validation.js"></script>
   

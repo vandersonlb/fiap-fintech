@@ -34,9 +34,9 @@ public class Transacao implements Serializable {
     this.categoria = categoria;
     this.obsevacao = obsevacao;
   }
-  
-  public Transacao(Conta conta, int sequencia, String nome, Tipo tipo, double valor,
-      Calendar data, Categoria categoria, String obsevacao) {
+
+  public Transacao(Conta conta, int sequencia, String nome, Tipo tipo, double valor, Calendar data, Categoria categoria,
+      String obsevacao) {
     super();
     this.conta = conta;
     this.sequencia = sequencia;

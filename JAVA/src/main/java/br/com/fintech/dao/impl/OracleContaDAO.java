@@ -144,7 +144,7 @@ public class OracleContaDAO implements ContaDAO {
     }
     return null;
   }
-  
+
   public static void updateSaldo(Conta conta, Connection conn, PreparedStatement stmt) throws SQLException {
     stmt = conn.prepareStatement("UPDATE T_FT_CONTA SET VL_SALDO = ? WHERE NR_CONTA = ?");
 

@@ -21,8 +21,8 @@ public class TesteDAOCategoria {
     }
 
     // RECUPERAR CATEGORIA POR CÓDIGO
-//    Categoria categoria = categoriaDAO.getCategoria(36);
-//    System.out.println(categoria);
+    Categoria categoria = categoriaDAO.getCategoria(36);
+    System.out.println(categoria);
 
   }
 
