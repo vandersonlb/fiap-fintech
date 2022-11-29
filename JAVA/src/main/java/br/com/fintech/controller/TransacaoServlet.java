@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -46,120 +45,33 @@ public class TransacaoServlet extends HttpServlet {
   }
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String acao = request.getParameter("action");
 
-    switch (acao) {
-    case "extrato":
-      try {
+    listAllTransacao(request, response);
 
-        HttpSession session = request.getSession();
-        Conta conta = (Conta) session.getAttribute("conta");
-        List<Transacao> extrato = transacaoDAO.getAllTransacao(conta.getNumConta());
-        session.setAttribute("extrato", extrato);
-
-        request.getRequestDispatcher("extrato.jsp").forward(request, response);
-
-      } catch (Exception e) {
-        e.printStackTrace();
-        request.setAttribute("error", "Algo errado não tá certo!");
-        request.getRequestDispatcher("login.jsp").forward(request, response);
-      }
-      break;
-    case "delete":
-      try {
-
-        Map<String, String[]> params = request.getParameterMap();
-        params.forEach((k, v) -> System.out.println((k.toString() + ":" + v[0])));
-
-        HttpSession session = request.getSession();
-        Conta conta = (Conta) session.getAttribute("conta");
-        List<Transacao> extrato = transacaoDAO.getAllTransacao(conta.getNumConta());
-
-        int codTransac = Integer.parseInt(request.getParameter("codigo"));
-
-        transacaoDAO.deleteTransacao(codTransac);
-
-        session.setAttribute("extrato", extrato);
-        request.getRequestDispatcher("extrato.jsp").forward(request, response);
-
-      } catch (Exception e) {
-        e.printStackTrace();
-        request.setAttribute("error", "Algo errado não tá certo!");
-        request.getRequestDispatcher("login.jsp").forward(request, response);
-      }
-      break;
-
-    }
-  }
-
-  private void listaExtrato(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    try {
-
-      HttpSession session = request.getSession();
-      Conta conta = (Conta) session.getAttribute("conta");
-      List<Transacao> extrato = transacaoDAO.getAllTransacao(conta.getNumConta());
-//      List<Transacao> ultimasTransacoes = transacaoDAO.getLastestTransacao(conta.getNumConta());
-      session.setAttribute("extrato", extrato);
-//      session.setAttribute("ultimas", ultimasTransacoes);
-      request.getRequestDispatcher("extrato.jsp").forward(request, response);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-      request.setAttribute("error", "Algo errado não tá certo!");
-      request.getRequestDispatcher("login.jsp").forward(request, response);
-    }
-  }
-
-  private void deletarTransacao(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    try {
-
-      HttpSession session = request.getSession();
-      Conta conta = (Conta) session.getAttribute("conta");
-      List<Transacao> extrato = transacaoDAO.getAllTransacao(conta.getNumConta());
-//      List<Transacao> ultimasTransacoes = transacaoDAO.getLastestTransacao(conta.getNumConta());
-
-      int codTransac = Integer.parseInt(request.getParameter("codigo"));
-
-      transacaoDAO.deleteTransacao(codTransac);
-
-//      Map<String, String[]> params = request.getParameterMap();
-//      params.forEach((k, v) -> System.out.println((k.toString() + ":" + v[0])));
-
-      session.setAttribute("extrato", extrato);
-      request.getRequestDispatcher("extrato.jsp").forward(request, response);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-      request.setAttribute("error", "Algo errado não tá certo!");
-      request.getRequestDispatcher("login.jsp").forward(request, response);
-    }
   }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    createTransacao(request, response);
 
     String acao = request.getParameter("action");
 
     switch (acao) {
     case "create":
-      listaExtrato(request, response);
+      createTransacao(request, response);
+      listLastestTransacao(request, response);
       break;
     case "delete":
-//      carregarOpcoesCategoria(request);
-      deletarTransacao(request, response);
+      deleteTransacao(request, response);
+      listAllTransacao(request, response);
       break;
-//    case "abrir-form-cadastro":
-//      abrirFormCadastro(request, response);
-//      break;
+    case "edit":
+      editTransacao(request, response);
+      listAllTransacao(request, response);
+      break;
     }
 
   }
 
-  private void createTransacao(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  private void createTransacao(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     try {
 
       HttpSession session = request.getSession();
@@ -189,16 +101,64 @@ public class TransacaoServlet extends HttpServlet {
       transacaoDAO.createTransacao(new Transacao(conta, 0, nomeTransacao, invest, tipo, valor, data, categoria, obs));
 
       List<Investimento> invests = investDAO.getAllInvestimentoByConta(conta.getNumConta());
-      List<Transacao> ultimasTransacoes = transacaoDAO.getLastestTransacao(conta.getNumConta());
 
       session.setAttribute("conta", conta);
       session.setAttribute("investimentos", invests);
-      session.setAttribute("ultimas", ultimasTransacoes);
 
-      request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+    } catch (Exception e) {
+      e.printStackTrace();
+      request.setAttribute("error", "Algo errado não tá certo!");
+      request.getRequestDispatcher("login.jsp").forward(request, response);
+    }
+  }
 
-//      Map<String, String[]> params = request.getParameterMap();
-//      params.forEach((k, v) -> System.out.println((k.toString() + ":" + v[0])));
+  private void listAllTransacao(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    HttpSession session = request.getSession();
+    Conta conta = (Conta) session.getAttribute("conta");
+    List<Transacao> extrato = transacaoDAO.getAllTransacao(conta.getNumConta());
+    session.setAttribute("extrato", extrato);
+
+    request.getRequestDispatcher("extrato.jsp").forward(request, response);
+  }
+
+  private void listLastestTransacao(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    HttpSession session = request.getSession();
+    Conta conta = (Conta) session.getAttribute("conta");
+
+    List<Transacao> ultimasTransacoes = transacaoDAO.getLastestTransacao(conta.getNumConta());
+    session.setAttribute("ultimas", ultimasTransacoes);
+
+    request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+  }
+
+  private void deleteTransacao(HttpServletRequest request, HttpServletResponse response) {
+
+    int codTransac = Integer.parseInt(request.getParameter("codigo"));
+    transacaoDAO.deleteTransacao(codTransac);
+
+  }
+
+  private void editTransacao(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    try {
+
+      int codTransacao = Integer.parseInt(request.getParameter("codigo"));
+      String nomeTransacao = request.getParameter("nome");
+      Calendar data = Calendar.getInstance();
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+      data.setTime(sdf.parse(request.getParameter("date")));
+      int codCategoria = Integer.parseInt(request.getParameter("categoria"));
+      String obs = request.getParameter("observacao");
+
+      Transacao transacao = transacaoDAO.getTransacao(codTransacao);
+      Categoria categoria = categoriaDAO.getCategoria(codCategoria);
+
+      transacao.setNome(nomeTransacao);
+      transacao.setData(data);
+      transacao.setCategoria(categoria);
+      transacao.setObsevacao(obs);
+
+      transacaoDAO.updateTransacao(transacao);
 
     } catch (Exception e) {
       e.printStackTrace();

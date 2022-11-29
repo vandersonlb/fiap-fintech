@@ -15,10 +15,9 @@
   </header>
 
   <main class="container-fluid mb-4">
-  
     <!-- 
     <%@ include file="./_jsp/debug.jsp" %>
-     -->   
+     -->
 
     <div class="container-lg">
       <div class="row my-2 pt-4 px-3">

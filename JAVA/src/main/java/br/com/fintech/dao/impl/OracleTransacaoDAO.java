@@ -231,7 +231,7 @@ public class OracleTransacaoDAO implements TransacaoDAO {
           + "        ON T.NR_CONTA = C.NR_CONTA AND T.NR_CONTA = ? " + "        LEFT JOIN T_FT_INVESTIMENTO I "
           + "        ON T.CD_INVESTIMENTO = I.CD_INVESTIMENTO " + "        INNER JOIN T_FT_TIPO TP "
           + "        ON T.CD_TIPO = TP.CD_TIPO " + "        INNER JOIN T_FT_CATEGORIA CT "
-          + "        ON T.CD_CATEGORIA = CT.CD_CATEGORIA " + "        ORDER BY T.DT_TRANSACAO DESC";
+          + "        ON T.CD_CATEGORIA = CT.CD_CATEGORIA " + "  ORDER BY T.DT_TRANSACAO DESC, SQ_TRANSACAO DESC";
       stmt = conn.prepareStatement(sql);
       stmt.setInt(1, numConta);
       rs = stmt.executeQuery();
@@ -303,7 +303,7 @@ public class OracleTransacaoDAO implements TransacaoDAO {
           + "                LEFT JOIN T_FT_INVESTIMENTO I "
           + "                ON T.CD_INVESTIMENTO = I.CD_INVESTIMENTO " + "                INNER JOIN T_FT_TIPO TP "
           + "                ON T.CD_TIPO = TP.CD_TIPO " + "                INNER JOIN T_FT_CATEGORIA CT "
-          + "                ON T.CD_CATEGORIA = CT.CD_CATEGORIA " + "                ORDER BY T.DT_TRANSACAO DESC "
+          + "                ON T.CD_CATEGORIA = CT.CD_CATEGORIA " + "  ORDER BY T.DT_TRANSACAO DESC, SQ_TRANSACAO DESC"
           + "                ) " + "WHERE ROWNUM < 6";
       stmt = conn.prepareStatement(sql);
       stmt.setInt(1, numConta);
