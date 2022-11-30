@@ -16,9 +16,9 @@
 
   <main class="overflow-hidden">
   
-    <!-- 
+    
     <%@ include file="./_jsp/debug.jsp" %>
-     -->
+    
 
     <div class="container-md extrato bg-white overflow-hide p-4 p-sm-5">
       <h1 class="h3 fw-bold pb-4">Extrato de transações</h1>

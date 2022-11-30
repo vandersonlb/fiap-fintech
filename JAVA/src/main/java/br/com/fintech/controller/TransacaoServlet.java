@@ -115,8 +115,12 @@ public class TransacaoServlet extends HttpServlet {
   private void listAllTransacao(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     HttpSession session = request.getSession();
     Conta conta = (Conta) session.getAttribute("conta");
+    
     List<Transacao> extrato = transacaoDAO.getAllTransacao(conta.getNumConta());
     session.setAttribute("extrato", extrato);
+    
+    conta = contaDAO.getConta(conta.getNumConta());
+    session.setAttribute("conta", conta);
 
     request.getRequestDispatcher("extrato.jsp").forward(request, response);
   }
@@ -135,6 +139,7 @@ public class TransacaoServlet extends HttpServlet {
   private void deleteTransacao(HttpServletRequest request, HttpServletResponse response) {
 
     int codTransac = Integer.parseInt(request.getParameter("codigo"));
+
     transacaoDAO.deleteTransacao(codTransac);
 
   }

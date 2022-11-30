@@ -1,6 +1,7 @@
 package br.com.fintech.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import br.com.fintech.bean.Conta;
+import br.com.fintech.bean.Investimento;
+import br.com.fintech.bean.Transacao;
 import br.com.fintech.dao.ContaDAO;
 import br.com.fintech.factory.DAOFactory;
 
@@ -40,6 +43,11 @@ public class ContaServlet extends HttpServlet {
 
       Conta conta = new Conta(0, userCPF, nomeConta, saldoConta);
       contaDAO.createConta(conta);
+
+      List<Conta> contas = contaDAO.getAllConta(userCPF);
+      if (contas.size() > 0) {
+        conta = contas.get(0);
+      }
 
       session.setAttribute("conta", conta);
       request.getRequestDispatcher("dashboard.jsp").forward(request, response);

@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import br.com.fintech.bean.Conta;
+import br.com.fintech.bean.Investimento;
 import br.com.fintech.bean.Transacao;
+import br.com.fintech.dao.InvestimentoDAO;
 import br.com.fintech.dao.TransacaoDAO;
 import br.com.fintech.factory.DAOFactory;
 
@@ -20,11 +22,13 @@ public class DashboardServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   private TransacaoDAO transacaoDAO;
+  private InvestimentoDAO investDAO;
 
   @Override
   public void init() throws ServletException {
     super.init();
     transacaoDAO = DAOFactory.getTransacaoDAO();
+    investDAO = DAOFactory.getInvestimentoDAO();
   }
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,6 +38,9 @@ public class DashboardServlet extends HttpServlet {
 
     List<Transacao> ultimasTransacoes = transacaoDAO.getLastestTransacao(conta.getNumConta());
     session.setAttribute("ultimas", ultimasTransacoes);
+    
+    List<Investimento> invests = investDAO.getAllInvestimentoByConta(conta.getNumConta());
+    session.setAttribute("investimentos", invests);
 
     request.getRequestDispatcher("dashboard.jsp").forward(request, response);
   }
