@@ -226,7 +226,7 @@ public class OracleTransacaoDAO implements TransacaoDAO {
       String sql = "" + "SELECT " + "    C.NR_CONTA, C.NR_CPF, C.NM_CONTA, C.VL_SALDO SALDO_CONTA, "
           + "    T.SQ_TRANSACAO, T.NM_TRANSACAO, T.VL_TRANSACAO, T.DT_TRANSACAO, T.OB_TRANSACAO, "
           + "    I.CD_INVESTIMENTO, I.NM_INVESTIMENTO, I.VL_SALDO SALDO_INVESTIMENTO, I.VL_META, "
-          + "    TP.CD_TIPO, TP.NM_TIPO, " + "    CT.CD_CATEGORIA, CT.NM_CATEGORIA " + "    FROM "
+          + "    TP.CD_TIPO, TP.NM_TIPO, " + "    CT.CD_CATEGORIA, CT.NM_CATEGORIA, CT.CD_GRUPO " + "    FROM "
           + "        T_FT_TRANSACAO T INNER JOIN T_FT_CONTA C "
           + "        ON T.NR_CONTA = C.NR_CONTA AND T.NR_CONTA = ? " + "        LEFT JOIN T_FT_INVESTIMENTO I "
           + "        ON T.CD_INVESTIMENTO = I.CD_INVESTIMENTO " + "        INNER JOIN T_FT_TIPO TP "
@@ -261,11 +261,12 @@ public class OracleTransacaoDAO implements TransacaoDAO {
 
         int codCategoria = rs.getInt("CD_CATEGORIA");
         String nomeCategoria = rs.getString("NM_CATEGORIA");
+        int codGrupo = rs.getInt("CD_GRUPO");
 
         Conta conta = new Conta(numeroConta, numCPF, nomeConta, saldoConta);
         Investimento invest = new Investimento(numeroConta, codInvest, nomeInvest, saldoInvest, metaInvest);
         Tipo tipo = new Tipo(codTipo, nomeTipo);
-        Categoria categoria = new Categoria(codCategoria, nomeCategoria);
+        Categoria categoria = new Categoria(codCategoria, nomeCategoria, codGrupo);
 
         transacoes.add(new Transacao(conta, seqTrans, nomeTrans, invest, tipo, valor, dataTrans, categoria, obs));
 
@@ -297,7 +298,7 @@ public class OracleTransacaoDAO implements TransacaoDAO {
           + "            C.NR_CONTA, C.NR_CPF, C.NM_CONTA, C.VL_SALDO SALDO_CONTA, "
           + "            T.SQ_TRANSACAO, T.NM_TRANSACAO, T.VL_TRANSACAO, T.DT_TRANSACAO, T.OB_TRANSACAO, "
           + "            I.CD_INVESTIMENTO, I.NM_INVESTIMENTO, I.VL_SALDO SALDO_INVESTIMENTO, I.VL_META, "
-          + "            TP.CD_TIPO, TP.NM_TIPO, " + "            CT.CD_CATEGORIA, CT.NM_CATEGORIA "
+          + "            TP.CD_TIPO, TP.NM_TIPO, " + "            CT.CD_CATEGORIA, CT.NM_CATEGORIA, CT.CD_GRUPO "
           + "            FROM " + "                T_FT_TRANSACAO T INNER JOIN T_FT_CONTA C "
           + "                ON T.NR_CONTA = C.NR_CONTA AND T.NR_CONTA = ? "
           + "                LEFT JOIN T_FT_INVESTIMENTO I "
@@ -334,11 +335,12 @@ public class OracleTransacaoDAO implements TransacaoDAO {
 
         int codCategoria = rs.getInt("CD_CATEGORIA");
         String nomeCategoria = rs.getString("NM_CATEGORIA");
+        int codGrupo = rs.getInt("CD_GRUPO");
 
         Conta conta = new Conta(numeroConta, numCPF, nomeConta, saldoConta);
         Investimento invest = new Investimento(numeroConta, codInvest, nomeInvest, saldoInvest, metaInvest);
         Tipo tipo = new Tipo(codTipo, nomeTipo);
-        Categoria categoria = new Categoria(codCategoria, nomeCategoria);
+        Categoria categoria = new Categoria(codCategoria, nomeCategoria, codGrupo);
 
         transacoes.add(new Transacao(conta, seqTrans, nomeTrans, invest, tipo, valor, dataTrans, categoria, obs));
 

@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" 
+  import="br.com.fintech.util.EnumCategoria, br.com.fintech.util.EnumGrupo"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -16,9 +18,9 @@
 
   <main class="overflow-hidden">
   
-    
+    <!-- 
     <%@ include file="./_jsp/debug.jsp" %>
-    
+     -->
 
     <div class="container-md extrato bg-white overflow-hide p-4 p-sm-5">
       <h1 class="h3 fw-bold pb-4">Extrato de transações</h1>
@@ -27,7 +29,15 @@
       <c:forEach var="transacao" items="${extrato}">
       <div class="row flex-wrap hide-actions">
         <div class="col-12 col-sm-8 col-lg-4 d-flex px-2 px-sm-0">
-          <i class="bi bi-basket fs-3 border border-primary rounded-circle text-primary icone"></i>
+        
+          <!-- Pegando a cor do ícone pelo ENUM do grupo -->
+          <c:set var="iconColor" value="${EnumGrupo.values()[transacao.categoria.codGrupo-1].label}"></c:set>
+              
+          <!-- Pegando o ícone pelo ENUM da categoria -->
+          <c:set var="nomeCategoria" value="${transacao.categoria.nomeCategoria.toUpperCase().replaceAll('[\\\s\\\/]+', '_')}"></c:set>
+          <c:set var="icone" value='${EnumCategoria.valueOf(nomeCategoria).label}'></c:set>
+                
+          <i class="bi ${icone} fs-3 border ${iconColor} rounded-circle icone"></i>
           <div class="d-flex flex-column ps-3">
             <span class="fs-6 text-truncate">${transacao.categoria.nomeCategoria}</span>
             <span class="fs-5 text-truncate">${transacao.nome}</span>

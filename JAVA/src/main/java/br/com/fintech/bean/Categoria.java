@@ -52,7 +52,7 @@ public class Categoria implements Serializable {
 
   @Override
   public String toString() {
-    return String.format("{Categoria: %s, Código: %d}", nomeCategoria, codCategoria);
+    return String.format("{Categoria: %s, Código: %d, Grupo: %d}", nomeCategoria, codCategoria, codGrupo);
   }
 
 }

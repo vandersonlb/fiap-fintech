@@ -14,14 +14,14 @@ public class TesteDAOCategoria {
     CategoriaDAO categoriaDAO = DAOFactory.getCategoriaoDAO();
 
     // RECUPERAR TODAS AS CATEGORIAS AGRUPADAS
-    List<GrupoCategoria> grupoCategorias = categoriaDAO.getAllCategoriaGrouping();
-
-    for (GrupoCategoria grupo : grupoCategorias) {
-      System.out.println(grupo);
-    }
+//    List<GrupoCategoria> grupoCategorias = categoriaDAO.getAllCategoriaGrouping();
+//
+//    for (GrupoCategoria grupo : grupoCategorias) {
+//      System.out.println(grupo);
+//    }
 
     // RECUPERAR CATEGORIA POR CÓDIGO
-    Categoria categoria = categoriaDAO.getCategoria(36);
+    Categoria categoria = categoriaDAO.getCategoria(7);
     System.out.println(categoria);
 
   }

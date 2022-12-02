@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" 
+  import="br.com.fintech.util.EnumCategoria, br.com.fintech.util.EnumGrupo"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -13,11 +15,12 @@
   <fmt:setLocale value = "pt_BR"/>
   <%@ include file="./navbar.jsp" %>
   </header>
-
+    
   <main class="container-fluid mb-4">
     
+    <!-- 
     <%@ include file="./_jsp/debug.jsp" %>
-    
+     -->
 
     <div class="container-lg">
       <div class="row my-2 pt-4 px-3">
@@ -147,7 +150,15 @@
             <c:forEach var="transacao" items="${ultimas}">
             <div class="row my-3 flex-wrap flex-sm-nowrap">
               <div class="col d-flex">
-                <i class="bi bi-basket fs-3 border border-primary rounded-circle text-primary icone"></i>
+                
+                <!-- Pegando a cor do ícone pelo ENUM do grupo -->
+                <c:set var="iconColor" value="${EnumGrupo.values()[transacao.categoria.codGrupo-1].label}"></c:set>
+              
+                <!-- Pegando o ícone pelo ENUM da categoria -->
+                <c:set var="nomeCategoria" value="${transacao.categoria.nomeCategoria.toUpperCase().replaceAll('[\\\s\\\/]+', '_')}"></c:set>
+                <c:set var="icone" value='${EnumCategoria.valueOf(nomeCategoria).label}'></c:set>
+                
+                <i class="bi ${icone} fs-3 border ${iconColor} rounded-circle icone"></i>
                 <div class="d-flex flex-column ps-2">
                   <span class="fs-6 text-truncate">${transacao.categoria.nomeCategoria}</span>
                   <span class="fs-5 text-truncate">${transacao.nome}</span>

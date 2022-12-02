@@ -33,8 +33,9 @@ public class OracleCategoriaDAO implements CategoriaDAO {
 
         int codCategoria = rs.getInt("CD_CATEGORIA");
         String nomeCategoria = rs.getString("NM_CATEGORIA");
+        int codGrupo = rs.getInt("CD_GRUPO");
 
-        Categoria categoria = new Categoria(codCategoria, nomeCategoria);
+        Categoria categoria = new Categoria(codCategoria, nomeCategoria, codGrupo);
         System.out.println("Categoria obtida com sucesso!");
         return categoria;
 
