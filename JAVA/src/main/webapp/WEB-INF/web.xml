@@ -8,7 +8,7 @@
 		<welcome-file>login.jsp</welcome-file>
 	</welcome-file-list>
 	<session-config>
-		<session-timeout>5</session-timeout>
+		<session-timeout>10</session-timeout>
 	</session-config>
 	<error-page>
 		<error-code>404</error-code>
@@ -16,6 +16,6 @@
 	</error-page>
 	<error-page>
 		<exception-type>NullPointerException</exception-type>
-		<location>/error.jsp</location>
+		<location>/404.jsp</location>
 	</error-page>
 </web-app>
