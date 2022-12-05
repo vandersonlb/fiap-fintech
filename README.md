@@ -8,12 +8,12 @@
 
 #### Front-end
 - [x] Cadastro de usuário
-- [ ] Editar perfil
-- [ ] Cadastro de conta
+- [x] Editar perfil
+- [x] Cadastro de conta
 - [x] Dashboard
-- [ ] Cadastro de investimento
+- [x] Cadastro de investimento
 - [x] Lançamento de transação
-- [ ] Editar transação
+- [x] Editar transação
 - [x] Extrato das transações
 
 #### Banco de dados
@@ -27,6 +27,6 @@
 - [x] Testes unitários
 
 #### Java x Web
-- [ ] Servelts
-- [ ] Testar as Servlets
-- [ ] Integrar a interface com as Servlets
+- [x] Servelts
+- [x] Testar as Servlets
+- [x] Integrar a interface com as Servlets
