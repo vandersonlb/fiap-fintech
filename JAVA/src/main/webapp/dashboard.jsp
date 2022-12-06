@@ -255,7 +255,7 @@
           </div>
           <div class="col-12">
             <label for="valor" class="form-label">Valor</label>
-            <input type="number" class="form-control" id="valor" name="valor" maxlength="10" placeholder="Valor" required>
+            <input type="number" class="form-control" id="valor" name="valor" placeholder="Valor" min="0.00" max="99999.99" step="0.01" required>
           </div>
           <c:if test="${investimentos != null && investimentos.size() > 0}">
           <div class="col-12">
