@@ -266,7 +266,7 @@
                 <option value="${invest.codInvestimento}"> ${invest.nomeInvestimento} </option>
               </c:forEach>
             </select>
-          </div>  
+          </div> 
           </c:if>
           <!--  MELHORAR ESSA PARTE, SÓ APARECER OS TIPOS 3 E 4 SEEE INVESTIMENTO FOR SELECIONADO -->
           <div class="col-12">
@@ -341,7 +341,7 @@
               </div>
               <div class="col-12">
                 <label for="saldo" class="form-label">Saldo atual</label>
-                <input type="number" class="form-control" id="saldo" name="saldo" maxlength="12" placeholder="R$" required>
+                <input type="number" class="form-control" id="saldo" name="saldo" placeholder="R$" min="0.00" max="99999.99" step="0.01" required>
                 <div class="invalid-feedback">
                   Relaxa, não vamos contar pra ninguém.
                 </div>
@@ -388,14 +388,14 @@
               </div>
               <div class="col-12">
                 <label for="saldo" class="form-label">Saldo atual</label>
-                <input type="number" class="form-control" id="saldo" name="saldo" maxlength="12" placeholder="R$" required>
+                <input type="number" class="form-control" id="saldo" name="saldo" placeholder="R$" min="0.00" max="99999.99" step="0.01" required>
                 <div class="invalid-feedback">
                   Relaxa, não vamos contar pra ninguém.
                 </div>
               </div>
               <div class="col-12">
                 <label for="meta" class="form-label">Meta</label>
-                <input type="number" class="form-control" id="meta" name="meta" maxlength="12" placeholder="R$" required>
+                <input type="number" class="form-control" id="meta" name="meta" placeholder="R$" min="0.00" max="99999.99" step="0.01" required>
                 <div class="invalid-feedback">
                   Fique de olho no prêmio, defina um objetivo.
                 </div>
