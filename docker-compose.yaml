@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  app:
+    image: fintech
+    build: ./
+    ports:
+      - 8080:8080
+      - 8443:8443
+    #volumes:
+    #  - ./server.xml:/usr/local/tomcat/conf/server.xml
